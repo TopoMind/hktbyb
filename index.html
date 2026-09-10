@@ -1,0 +1,1467 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>乙部通關</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+:root{
+  --paper:#F6F2F0;
+  --surface:#FFFFFF;
+  --surface-2:#EEE7E5;
+  --line:#DFD6D3;
+  --line-2:#CFC3BF;
+  --ink:#211B20;
+  --ink-2:#6B5F67;
+  --ink-3:#95878E;
+  --accent:#A82248;
+  --accent-2:#871B3A;
+  --accent-soft:#F6E0E7;
+  --on-accent:#FFFFFF;
+  --harbour:#155E68;
+  --harbour-soft:#DDECEE;
+  --ok:#1C7A55;
+  --ok-soft:#DCEFE5;
+  --bad:#B33427;
+  --bad-soft:#F8DFDB;
+  --warn:#96690F;
+  --warn-soft:#F6EAD2;
+  --shadow:0 1px 2px rgba(33,27,32,.05), 0 10px 28px -16px rgba(33,27,32,.30);
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --serif:"Noto Serif TC","Songti TC","Source Han Serif TC",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang TC","PingFang HK","Hiragino Sans TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#17131A;
+    --surface:#1F1A22;
+    --surface-2:#292330;
+    --line:#362F3E;
+    --line-2:#463D50;
+    --ink:#F1EAEE;
+    --ink-2:#B4A7B4;
+    --ink-3:#8B7E8B;
+    --accent:#F07C9C;
+    --accent-2:#F9A6BC;
+    --accent-soft:#3B2029;
+  --on-accent:#241219;
+    --on-accent:#241219;
+    --harbour:#5FBFC9;
+    --harbour-soft:#123136;
+    --ok:#5FC79B;
+    --ok-soft:#123425;
+    --bad:#F08A7C;
+    --bad-soft:#3A1D19;
+    --warn:#DFAB47;
+    --warn-soft:#332711;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 30px -18px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#17131A;
+  --surface:#1F1A22;
+  --surface-2:#292330;
+  --line:#362F3E;
+  --line-2:#463D50;
+  --ink:#F1EAEE;
+  --ink-2:#B4A7B4;
+  --ink-3:#8B7E8B;
+  --accent:#F07C9C;
+  --accent-2:#F9A6BC;
+  --accent-soft:#3B2029;
+  --harbour:#5FBFC9;
+  --harbour-soft:#123136;
+  --ok:#5FC79B;
+  --ok-soft:#123425;
+  --bad:#F08A7C;
+  --bad-soft:#3A1D19;
+  --warn:#DFAB47;
+  --warn-soft:#332711;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 30px -18px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:15px; line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:3px}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+  padding:10px 22px;
+  background:var(--paper);
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex; align-items:center; gap:11px; margin-right:auto}
+.brand-mark{
+  width:30px; height:30px; flex:none; border-radius:50%;
+  background:var(--accent); color:var(--on-accent);
+  display:grid; place-items:center;
+  font-family:var(--serif); font-weight:700; font-size:15px; line-height:1;
+  padding-bottom:1px;
+}
+.brand-name{font-family:var(--serif); font-weight:700; font-size:17px; letter-spacing:.03em; line-height:1.2}
+.eyebrow{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); line-height:1.4;
+}
+.tabs{display:flex; gap:2px; background:var(--surface-2); padding:3px; border-radius:9px}
+.tab{
+  border:0; background:transparent; color:var(--ink-2);
+  padding:6px 15px; border-radius:7px; cursor:pointer;
+  font-family:var(--serif); font-weight:600; font-size:14px; letter-spacing:.05em;
+}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--surface); color:var(--accent); box-shadow:0 1px 2px rgba(0,0,0,.10)}
+.sync{
+  display:flex; align-items:center; gap:6px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; color:var(--ink-3);
+}
+.dot{width:6px; height:6px; border-radius:50%; background:var(--ink-3)}
+.dot.on{background:var(--ok)}
+
+/* ---------- shell ---------- */
+.shell{padding:26px 22px 90px; max-width:940px; margin:0 auto}
+.shell.stats{max-width:1120px}
+
+/* ---------- 主題卡片 ---------- */
+.picker{display:flex; flex-direction:column; gap:12px}
+.phead{margin-bottom:6px}
+.phead h1{font-family:var(--serif); font-size:23px; font-weight:700; margin:0 0 5px; letter-spacing:.02em}
+.phead p{margin:0; color:var(--ink-2); font-size:14px}
+.psec{display:flex; align-items:center; gap:12px; margin:22px 0 2px}
+.psec .line{flex:1; height:1px; background:var(--line)}
+.pgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(212px,1fr)); gap:11px}
+.pgrid.quick{grid-template-columns:repeat(auto-fit,minmax(212px,1fr))}
+.pcard{
+  display:flex; flex-direction:column; gap:7px; text-align:left; cursor:pointer;
+  background:var(--surface); border:1px solid var(--line); border-radius:12px;
+  padding:14px 16px 15px; color:var(--ink);
+  transition:border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.pcard:hover{border-color:var(--accent); transform:translateY(-1px); box-shadow:var(--shadow)}
+.pcard .peye{font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3)}
+.pcard .pname{font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.4}
+.pcard .pmeta{margin-top:auto; display:flex; justify-content:space-between; align-items:baseline; gap:8px;
+  font-family:var(--mono); font-size:11px; color:var(--ink-3); font-variant-numeric:tabular-nums}
+.pcard.flag .pnum{color:var(--bad)}
+.pcard .pnum{font-family:var(--mono); font-size:22px; font-weight:600; line-height:1.2; font-variant-numeric:tabular-nums}
+.ubar{height:3px; border-radius:2px; background:var(--surface-2); overflow:hidden; margin-top:2px}
+.ubar span{display:block; height:100%; border-radius:2px; transition:width .35s ease}
+.backbtn{padding-left:10px; padding-right:14px}
+.scopestat{
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.03em; color:var(--ink-3);
+  margin:-6px 2px 16px; font-variant-numeric:tabular-nums;
+}
+.scopestat .mini{display:inline-block; width:54px; height:3px; border-radius:2px; background:var(--surface-2); overflow:hidden}
+.scopestat .mini span{display:block; height:100%; border-radius:2px}
+.scount{font-family:var(--mono); font-size:11px; color:var(--ink-3)}
+
+/* ---------- generic ---------- */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px 24px}
+.card.lift{box-shadow:var(--shadow)}
+.btn{
+  border:1px solid var(--line-2); background:var(--surface); color:var(--ink);
+  padding:8px 16px; border-radius:9px; cursor:pointer; font-size:14px; line-height:1.4;
+  transition:background .15s ease, border-color .15s ease;
+}
+.btn:hover{background:var(--surface-2)}
+.btn:disabled{opacity:.45; cursor:default}
+.btn-primary{background:var(--accent); border-color:var(--accent); color:var(--on-accent); font-weight:600}
+.btn-primary:hover{background:var(--accent-2); border-color:var(--accent-2)}
+.btn-ghost{border-color:transparent; background:transparent; color:var(--ink-2)}
+.btn-ghost:hover{background:var(--surface-2); color:var(--ink)}
+.seg{display:inline-flex; background:var(--surface-2); border-radius:9px; padding:3px; gap:2px}
+.segbtn{border:0; background:transparent; color:var(--ink-2); padding:5px 13px; border-radius:7px; cursor:pointer; font-size:13.5px}
+.segbtn[aria-pressed="true"]{background:var(--surface); color:var(--ink); font-weight:600; box-shadow:0 1px 2px rgba(0,0,0,.10)}
+.hint{font-size:12.5px; color:var(--ink-3); line-height:1.6}
+.lbl{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+
+/* ---------- study ---------- */
+.toolbar{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px}
+.toolbar .spacer{flex:1}
+.progline{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:12px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.ptrack{width:120px; height:3px; background:var(--surface-2); border-radius:2px; overflow:hidden}
+.pfill{height:100%; background:var(--accent); transition:width .3s ease}
+
+.qhead{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:14px}
+.qtag{
+  font-family:var(--mono); font-size:11px; letter-spacing:.05em;
+  padding:2px 8px; border-radius:5px; background:var(--surface-2); color:var(--ink-2);
+}
+.qtag.unit{background:var(--harbour-soft); color:var(--harbour)}
+.qtag.note{background:var(--warn-soft); color:var(--warn)}
+.qtag.mark{background:transparent; color:var(--ink-3); padding-left:0}
+
+.stem{font-size:17.5px; line-height:2.5; letter-spacing:.01em; word-break:break-word}
+.slotwrap{display:inline-flex; align-items:flex-start; gap:2px; margin:0 3px; vertical-align:baseline}
+.slotkey{font-family:var(--mono); font-size:10px; color:var(--accent); line-height:1.2; padding-top:2px}
+.slot{
+  display:inline-block; min-width:6.6em; padding:1px 8px; text-align:center;
+  font-size:16px; line-height:1.55; color:var(--ink);
+  background:var(--surface-2); border:1px solid transparent;
+  border-bottom:2px solid var(--line-2); border-radius:6px 6px 3px 3px;
+}
+.slot-fill{width:6.6em; transition:width .12s ease}
+.slot-fill::placeholder{color:var(--ink-3)}
+.slot-drop{cursor:pointer; min-height:1.9em}
+.slot-drop.has{background:var(--accent-soft); border-bottom-color:var(--accent); color:var(--ink); font-weight:600}
+.slot-drop.over{background:var(--harbour-soft); border-bottom-color:var(--harbour)}
+.slot.is-ok{background:var(--ok-soft); border-bottom-color:var(--ok); color:var(--ok); font-weight:600}
+.slot.is-bad{background:var(--bad-soft); border-bottom-color:var(--bad); color:var(--bad); font-weight:600}
+
+.tray{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; padding-top:18px; border-top:1px dashed var(--line)}
+.chip{
+  border:1px solid var(--line-2); background:var(--surface); color:var(--ink);
+  padding:6px 14px; border-radius:8px; cursor:grab; font-size:15px; line-height:1.5;
+  box-shadow:0 1px 0 var(--line);
+}
+.chip:hover{border-color:var(--accent); color:var(--accent)}
+.chip.sel{background:var(--accent); border-color:var(--accent); color:var(--on-accent); box-shadow:none}
+.chip.used{opacity:.28; pointer-events:none; box-shadow:none}
+.traylbl{width:100%; margin-bottom:2px}
+
+.actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:22px}
+.feedback{margin-top:20px; border-top:1px solid var(--line); padding-top:16px; display:flex; flex-direction:column; gap:7px}
+.fbrow{display:grid; grid-template-columns:26px 1fr; gap:10px; align-items:baseline; font-size:14.5px}
+.fbkey{font-family:var(--mono); font-size:11.5px; color:var(--ink-3)}
+.fbmine{color:var(--bad); text-decoration:line-through; text-decoration-color:color-mix(in srgb, var(--bad) 45%, transparent)}
+.fbans{color:var(--ok); font-weight:600}
+.fbsep{color:var(--ink-3); margin:0 6px}
+.fbalt{color:var(--ink-3); font-size:12.5px}
+.verdict{display:flex; align-items:center; gap:9px; font-size:15px; margin-bottom:4px}
+.verdict .badge{font-family:var(--mono); font-size:11px; letter-spacing:.06em; padding:2px 8px; border-radius:5px}
+.badge.good{background:var(--ok-soft); color:var(--ok)}
+.badge.miss{background:var(--bad-soft); color:var(--bad)}
+
+.empty{display:flex; flex-direction:column; gap:12px; align-items:flex-start; padding:26px 4px; color:var(--ink-2)}
+
+/* ---------- summary ---------- */
+.tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px}
+.tile{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:15px 17px}
+.tilenum{font-family:var(--mono); font-size:27px; font-weight:600; line-height:1.15; font-variant-numeric:tabular-nums; letter-spacing:-.01em}
+.tilelabel{font-size:12.5px; color:var(--ink-2); margin-top:3px}
+.tilefoot{font-family:var(--mono); font-size:11px; color:var(--ink-3); margin-top:6px}
+
+/* ---------- test ---------- */
+.testbar{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  background:var(--surface); border:1px solid var(--line); border-radius:12px;
+  padding:12px 18px; margin-bottom:18px; box-shadow:var(--shadow);
+}
+.timer{font-family:var(--mono); font-size:24px; font-weight:600; font-variant-numeric:tabular-nums; letter-spacing:.02em}
+.timer.warn{color:var(--warn)} .timer.crit{color:var(--bad)}
+.gridnav{display:flex; flex-wrap:wrap; gap:5px; margin-top:18px}
+.gnav{
+  width:32px; height:30px; border-radius:6px; cursor:pointer;
+  border:1px solid var(--line); background:var(--surface); color:var(--ink-3);
+  font-family:var(--mono); font-size:11.5px; padding:0;
+}
+.gnav.done{background:var(--harbour-soft); border-color:var(--harbour-soft); color:var(--harbour)}
+.gnav.cur{border-color:var(--accent); color:var(--accent); font-weight:600}
+.gnav.wrong{background:var(--bad-soft); border-color:var(--bad-soft); color:var(--bad)}
+.gnav.right{background:var(--ok-soft); border-color:var(--ok-soft); color:var(--ok)}
+
+.setup{display:flex; flex-direction:column; gap:20px}
+.setrow{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+.setrow .lbl{width:64px; flex:none}
+.scoregrid{display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap}
+.bigscore{font-family:var(--mono); font-size:60px; font-weight:600; line-height:1; font-variant-numeric:tabular-nums; letter-spacing:-.02em}
+.pass{color:var(--ok)} .fail{color:var(--bad)}
+.reviewlist{display:flex; flex-direction:column; gap:0}
+.reviewq{border-top:1px solid var(--line); padding:16px 0; display:flex; gap:14px}
+.rnum{font-family:var(--mono); font-size:12px; color:var(--ink-3); flex:none; width:30px; padding-top:3px}
+.rbody{flex:1; min-width:0}
+.rstem{font-size:15px; line-height:2.1; color:var(--ink-2)}
+.rstem .rs{padding:1px 7px; border-radius:5px; font-weight:600}
+.rs.ok{background:var(--ok-soft); color:var(--ok)}
+.rs.bad{background:var(--bad-soft); color:var(--bad)}
+
+/* ---------- stats ---------- */
+.tablewrap{overflow-x:auto; margin-top:8px}
+table.stat{width:100%; border-collapse:collapse; font-size:14px; min-width:520px}
+table.stat th{
+  text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:400; padding:0 10px 8px 0; border-bottom:1px solid var(--line); white-space:nowrap;
+}
+table.stat td{padding:9px 10px 9px 0; border-bottom:1px solid var(--line); vertical-align:middle}
+table.stat td.num{font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink-2); text-align:right; white-space:nowrap}
+.barcell{min-width:140px}
+.bar{height:6px; background:var(--surface-2); border-radius:3px; overflow:hidden}
+.bar span{display:block; height:100%; border-radius:3px}
+.wrongitem{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:baseline; padding:9px 0; border-bottom:1px solid var(--line); font-size:14px}
+.wrongitem .wq{color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.chartbox{margin-top:6px}
+.chart{display:block; width:100%; height:auto; max-width:100%}
+.chart .g-line{stroke:var(--line); stroke-width:1; fill:none}
+.chart .g-pass{stroke:var(--accent); stroke-width:1.5; stroke-dasharray:4 4; fill:none}
+.chart text{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.chart .g-lbl{fill:var(--ink-3); font-size:10px}
+.chart .g-val{fill:var(--ink-2); font-size:11px}
+.chart .g-note{fill:var(--accent); font-size:10px}
+.chart .g-empty{fill:var(--ink-3); font-size:13px; font-family:var(--sans)}
+.chart .b-ok{fill:var(--ok)} .chart .b-warn{fill:var(--warn)} .chart .b-bad{fill:var(--bad)}
+.sechead{display:flex; align-items:baseline; gap:12px; margin:34px 0 10px}
+.sechead h2{font-family:var(--serif); font-size:19px; font-weight:600; margin:0; letter-spacing:.02em}
+.sechead .sub{font-size:12.5px; color:var(--ink-3)}
+
+.stack{display:flex; flex-direction:column; gap:14px}
+.rowwrap{display:flex; gap:14px; flex-wrap:wrap}
+
+@media (max-width:980px){
+  .shell{padding:16px 14px 70px}
+  .topbar{padding:9px 14px; gap:10px}
+  .brand{gap:9px}
+  .brand-mark{width:27px; height:27px; font-size:14px}
+  .brand-name{font-size:16px}
+  .eyebrow{font-size:9.5px; letter-spacing:.08em}
+  .tab{padding:5px 13px; font-size:13.5px}
+  .sync{font-size:10px}
+  .toolbar{gap:8px; margin-bottom:12px}
+  .segbtn{padding:5px 11px; font-size:13px}
+  .backbtn{padding:6px 11px 6px 8px; font-size:13.5px}
+  .progline{font-size:11.5px; gap:8px}
+  .ptrack{width:76px}
+  .phead h1{font-size:20px}
+  .stem{font-size:16px; line-height:2.15}
+  .slot{min-width:4.6em; font-size:15.5px; padding:1px 6px}
+  .slot-fill{width:4.6em}
+  .slotwrap{margin:0 2px}
+  .chip{padding:6px 12px; font-size:14.5px}
+  .card{padding:17px 15px}
+  .testbar{padding:11px 14px; gap:12px}
+  .timer{font-size:21px}
+  .bigscore{font-size:46px}
+  .scopestat{font-size:11px; gap:7px}
+  .actions{gap:8px}
+  .actions .spacer{display:none}
+  .btn{padding:8px 13px}
+}
+@media (max-width:560px){
+  .pgrid,.pgrid.quick{grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:9px}
+  .pcard{padding:12px 13px 13px}
+  .pcard .pname{font-size:15.5px}
+}
+@media (max-width:420px){
+  .sync{display:none}
+  .tabs{flex:1}
+  .tab{flex:1; text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important; animation:none !important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">乙</div>
+    <div>
+      <div class="brand-name">乙部通關</div>
+      <div class="eyebrow">卷一乙部 · 香港及中國知識 · 324 題</div>
+    </div>
+  </div>
+  <div class="tabs" role="tablist" aria-label="模式">
+    <button class="tab" role="tab" id="tab-study" aria-selected="true" data-view="study">學習</button>
+    <button class="tab" role="tab" id="tab-test" aria-selected="false" data-view="test">測驗</button>
+    <button class="tab" role="tab" id="tab-stats" aria-selected="false" data-view="stats">統計</button>
+  </div>
+  <div class="sync" id="sync"><span class="dot" id="syncdot"></span><span id="synctext">本機儲存</span></div>
+</header>
+
+<main class="shell" id="shell">
+  <section class="work">
+    <div id="view-study"></div>
+    <div id="view-test" hidden></div>
+    <div id="view-stats" hidden></div>
+  </section>
+</main>
+
+<script>window.QDATA=[{"id":"單元一-1","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":1,"text":"香港位處中國東南端【A】口岸，面向【B】海，由香港島、九龍半島和新界組成，居中的是【C】，分隔着香港島和九龍半島。","blanks":[{"key":"A","answers":["珠江"]},{"key":"B","answers":["南中國"]},{"key":"C","answers":["維多利亞港"]}],"unordered":[]},{"id":"單元一-2","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":2,"text":"根據香港天文台的資料，香港屬於【A】氣候，1 月和2月時溫度可跌至攝氏【B】度以下，5至9月回升至攝氏【C】度以上。","blanks":[{"key":"A","answers":["亞熱帶"]},{"key":"B","answers":["10"]},{"key":"C","answers":["31"]}],"unordered":[]},{"id":"單元一-3","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":3,"text":"根據香港天文台的資料，【A】月至【B】月期間香港都有可能受不同強度的熱帶氣旋吹襲。","blanks":[{"key":"A","answers":["5"]},{"key":"B","answers":["11"]}],"unordered":[]},{"id":"單元一-4","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":4,"text":"根據香港天文台的資料，香港的雨季在【A】月至【B】月期間，約佔全年雨量的【C】%。","blanks":[{"key":"A","answers":["5"]},{"key":"B","answers":["9"]},{"key":"C","answers":["80"]}],"unordered":[]},{"id":"單元一-5","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":5,"text":"目前香港陸地總面積約為【A】平方公里，包括【B】、【C】半島和【D】（包括【E】個離島）。","blanks":[{"key":"A","answers":["1,114"]},{"key":"B","answers":["香港島"]},{"key":"C","answers":["九龍"]},{"key":"D","answers":["新界"]},{"key":"E","answers":["261"]}],"unordered":[]},{"id":"單元一-6","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":6,"text":"香港最東面的島嶼是【A】，最南面的島嶼是【B】。","blanks":[{"key":"A","answers":["東平洲"]},{"key":"B","answers":["蒲台島"]}],"unordered":[]},{"id":"單元一-7","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":7,"text":"香港維多利亞港面積約【A】平方公里，海港最深處約有【B】米。","blanks":[{"key":"A","answers":["41"]},{"key":"B","answers":["40"]}],"unordered":[]},{"id":"單元一-8","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":8,"text":"香港維多利亞港東連【A】門，西接【B】門，南依太平山，北靠獅子山，形成一道天然屏障，是一個終年不【C】的天然避風港。","blanks":[{"key":"A","answers":["鯉魚"]},{"key":"B","answers":["汲水"]},{"key":"C","answers":["結冰"]}],"unordered":[]},{"id":"單元一-9","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":9,"text":"香港最高的山是【A】，海拔【B】米。香港第二及第三高的山分別是位於大嶼山的【C】及【D】。","blanks":[{"key":"A","answers":["大帽山"]},{"key":"B","answers":["957"]},{"key":"C","answers":["鳳凰山"]},{"key":"D","answers":["大東山"]}],"unordered":[]},{"id":"單元一-10","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":10,"text":"香港於3月和4月的天氣間中極為【A】，航空和渡輪有時因【B】中斷服務。","blanks":[{"key":"A","answers":["潮濕"]},{"key":"B","answers":["霧"]}],"unordered":[]},{"id":"單元一-11","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":11,"text":"在2024 年中，香港的人口超過【A】萬人，其中絕大部分為【B】族裔，佔人口比例超過90%。","blanks":[{"key":"A","answers":["752"]},{"key":"B","answers":["華人"]}],"unordered":[]},{"id":"單元一-12","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":12,"text":"根據香港政府統計處的人口趨勢推算，香港的總和生育率由1991年的每千名女性相對【A】個活產嬰兒，下降至2023年的【B】個。","blanks":[{"key":"A","answers":["1,281"]},{"key":"B","answers":["751"]}],"unordered":[]},{"id":"單元一-13","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":13,"text":"根據香港政府統計處的資料，截至2024年年底，全港的陸地人口密度為每平方公里【A】人；而【B】更是全港人口密度最高的地區，2023年年底人口超過【C】萬人。","blanks":[{"key":"A","answers":["6,900"]},{"key":"B","answers":["觀塘"]},{"key":"C","answers":["66"]}],"unordered":[]},{"id":"單元一-14","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":14,"text":"香港地理環境有五個特點，包括：山多【A】少、【B】彎曲、多海島、和擁有優良的【C】。","blanks":[{"key":"A","answers":["平地"]},{"key":"B","answers":["海岸線"]},{"key":"C","answers":["海港"]}],"unordered":[]},{"id":"單元一-15","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":15,"text":"香港的法定語文是【A】和【B】，在政府部門、法律界、專業人士和商界之中都被廣泛採用。","blanks":[{"key":"A","answers":["中文"]},{"key":"B","answers":["英文"]}],"unordered":[]},{"id":"單元一-16","part":"第一部分：香港知識","unit":"單元一","unitTitle":"香港地理","num":16,"text":"香港最常用的交談語言是【A】，其次為【B】和【C】。","blanks":[{"key":"A","answers":["廣東話"]},{"key":"B","answers":["普通話"]},{"key":"C","answers":["英語"]}],"unordered":[["B","C"]]},{"id":"單元二-1","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":1,"text":"今日大嶼山的【A】和沙田【B】都是古代香港有盛產香的地方，【C】東北岸一帶更【D】香料至中國各地，「香港」有可能因而得名。","blanks":[{"key":"A","answers":["沙螺灣"]},{"key":"B","answers":["瀝源村"]},{"key":"C","answers":["石排灣"]},{"key":"D","answers":["轉口"]}],"unordered":[]},{"id":"單元二-2","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":2,"text":"「廣東沿海圖」中，標有香港以及【A】、【B】、【C】等地名，經學者引證，當時的香港是現今的【D】島。清朝年間，小島南面的「香港村」改稱為「香港圍」，其西南港灣稱為【E】。","blanks":[{"key":"A","answers":["赤柱"]},{"key":"B","answers":["黄泥涌"]},{"key":"C","answers":["尖沙咀"]},{"key":"D","answers":["鴨脷洲"]},{"key":"E","answers":["石排灣"]}],"unordered":[["A","B","C"]]},{"id":"單元二-3","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":3,"text":"香港的歷史可以追溯到【A】三十三年，當時香港地區是屬於南海【B】縣。「香港」一名，則首見於【C】朝萬曆年間編纂的《【D】記》。","blanks":[{"key":"A","answers":["秦始皇"]},{"key":"B","answers":["番禺"]},{"key":"C","answers":["明"]},{"key":"D","answers":["粵大"]}],"unordered":[]},{"id":"單元二-4","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":4,"text":"於1840年，英國對中國發動戰爭，清朝政府被逼於【A】年8月與英國簽訂中國歷史上第一條【B】條約—《【C】條約》，其中條約第三條規定，中國必須將【D】及其附近小島，面積約78平方公里，割讓給英國。","blanks":[{"key":"A","answers":["1842"]},{"key":"B","answers":["不平等"]},{"key":"C","answers":["南京"]},{"key":"D","answers":["香港島"]}],"unordered":[]},{"id":"單元二-5","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":5,"text":"第二次鴉片戰爭結束後，清政府於【A】年10月與英國簽訂《【B】條約》，將九龍半島地區（即今日【C】街以南）及【D】洲，割讓給英國。","blanks":[{"key":"A","answers":["1860"]},{"key":"B","answers":["北京"]},{"key":"C","answers":["界限"]},{"key":"D","answers":["昂船"]}],"unordered":[]},{"id":"單元二-6","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":6,"text":"1898年6月9日中英雙方簽訂《【A】專條》，中國把九龍【B】街以北直至【C】以南的地域及【D】個島嶼【E】給英國，為期【F】年。","blanks":[{"key":"A","answers":["展拓香港界址"]},{"key":"B","answers":["界限"]},{"key":"C","answers":["深圳河"]},{"key":"D","answers":["235"]},{"key":"E","answers":["租借"]},{"key":"F","answers":["99"]}],"unordered":[]},{"id":"單元二-7","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":7,"text":"第二次世界大戰期間，【A】於【B】年12月8日進攻香港，香港政府於同月【C】日投降，最後日軍佔領了香港達【D】。","blanks":[{"key":"A","answers":["日本"]},{"key":"B","answers":["1941"]},{"key":"C","answers":["聖誕","25"]},{"key":"D","answers":["三年八個月"]}],"unordered":[]},{"id":"單元二-8","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":8,"text":"和平紀念碑位於【A】，在1923年興建，用以紀念第一及第二次世界大戰中在港的【B】。該紀念碑於2013年被列為【C】。","blanks":[{"key":"A","answers":["中環"]},{"key":"B","answers":["殉難者"]},{"key":"C","answers":["法定古蹟"]}],"unordered":[]},{"id":"單元二-9","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":9,"text":"1965年，【A】正式被定為香港市花，該花首先在1880年左右於香港島薄扶林【B】灣被一名來自【C】的傳教會【D】發現。","blanks":[{"key":"A","answers":["洋紫荊"]},{"key":"B","answers":["鋼綫"]},{"key":"C","answers":["巴黎"]},{"key":"D","answers":["神父"]}],"unordered":[]},{"id":"單元二-10","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":10,"text":"香港開埠後，公用事業相繼開辦，【A】年成立了香港中華煤氣公司。","blanks":[{"key":"A","answers":["1862"]}],"unordered":[]},{"id":"單元二-11","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":11,"text":"行走港島中環【A】大廈至山頂之間的纜車服務於【B】年通車。此纜車是全【C】最早的纜車索道系統。","blanks":[{"key":"A","answers":["聖約翰"]},{"key":"B","answers":["1888"]},{"key":"C","answers":["亞洲"]}],"unordered":[]},{"id":"單元二-12","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":12,"text":"在香港島【A】岸行走的電車於【B】年投入服務，現時來往香港島東邊的【C】至西邊的【D】。","blanks":[{"key":"A","answers":["北"]},{"key":"B","answers":["1904"]},{"key":"C","answers":["筲箕灣"]},{"key":"D","answers":["堅尼地城"]}],"unordered":[]},{"id":"單元二-13","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":13,"text":"香港在開埠前沒有街道名稱，只有「里」和「坊」。所謂「里」是【A】朝的區域行政單位，與「【B】」相似。「坊」則是指市鎮内外小【C】或狹窄的【D】。","blanks":[{"key":"A","answers":["清"]},{"key":"B","answers":["村"]},{"key":"C","answers":["空地"]},{"key":"D","answers":["通路"]}],"unordered":[]},{"id":"單元二-14","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":14,"text":"香港沿海一帶，發現了幾處古代石刻，風格十分相近，紋飾基本呈【A】形，與【B】青銅器紋飾相近，隱約可見【C】或【D】圖案。","blanks":[{"key":"A","answers":["幾何"]},{"key":"B","answers":["商周"]},{"key":"C","answers":["人物"]},{"key":"D","answers":["鳥獸"]}],"unordered":[["C","D"]]},{"id":"單元二-15","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":15,"text":"【A】年石硤尾發生【B】區大火，約【C】萬多名居民一夜間喪失家園。其後，香港房屋委員會於【D】年成立。","blanks":[{"key":"A","answers":["1953"]},{"key":"B","answers":["木屋"]},{"key":"C","answers":["五"]},{"key":"D","answers":["1973"]}],"unordered":[]},{"id":"單元二-16","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":16,"text":"由香港開埠至19世紀末，香港街道大多以歷任【A】、與英國有關的重要人士、【B】或英商巨賈的名稱來命名，名稱都是英譯中，例如砵甸乍街。","blanks":[{"key":"A","answers":["總督"]},{"key":"B","answers":["高官"]}],"unordered":[]},{"id":"單元二-17","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":17,"text":"舊最高法院於1912年落成啟用，為本港最具代表性的新古典風格建築之一，曾為【A】大樓，現為【B】。","blanks":[{"key":"A","answers":["立法會"]},{"key":"B","answers":["終審法院"]}],"unordered":[]},{"id":"單元二-18","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":18,"text":"梅夫人婦女會為一所女子【A】及宿舍，於1916年興建，位於【B】總站旁。建築物中央建有一個精緻的門廊。建築物主樓外部於1993年列為法定古蹟。","blanks":[{"key":"A","answers":["會所"]},{"key":"B","answers":["山頂纜車"]}],"unordered":[]},{"id":"單元二-19","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":19,"text":"舊牛奶公司倉庫於1892年落成，1896至1982年間為牛奶公司總部，現時為【A】及【B】會址。","blanks":[{"key":"A","answers":["藝穗會"]},{"key":"B","answers":["外國記者協會"]}],"unordered":[["A","B"]]},{"id":"單元二-20","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":20,"text":"中西區文物徑之西區及山頂線包括【A】項歷史建築及遺址，西區線涵蓋三個地區，包括西營盤、【B】和堅尼地城。早期西區居民以【C】為主，1850年以後，國内大批【D】湧入香港，並聚居該區。","blanks":[{"key":"A","answers":["25"]},{"key":"B","answers":["石塘咀"]},{"key":"C","answers":["英軍"]},{"key":"D","answers":["難民"]}],"unordered":[]},{"id":"單元二-21","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":21,"text":"中西區文物徑之上環線位於香港島北岸，是傳統華人【A】地區，涵蓋【B】項歷史建築及遺址。","blanks":[{"key":"A","answers":["商住"]},{"key":"B","answers":["35"]}],"unordered":[]},{"id":"單元二-22","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":22,"text":"文武廟始建於1847年，奉祀【A】君及【B】君，是香港開埠初期中上環一帶華商及居民的【C】中心。","blanks":[{"key":"A","answers":["文昌帝"]},{"key":"B","answers":["關聖帝"]},{"key":"C","answers":["祭祀"]}],"unordered":[["A","B"]]},{"id":"單元二-23","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":23,"text":"香港大學本部大樓是香港大學内歷史最悠久的建築物，於1910至12年間興建，設有兩個庭院，採用後【A】時期的建築風格，用【B】及【C】建造，正面以四座塔樓連接，中央為一座【D】。","blanks":[{"key":"A","answers":["文藝復興"]},{"key":"B","answers":["紅磚"]},{"key":"C","answers":["花崗石"]},{"key":"D","answers":["鐘樓"]}],"unordered":[["B","C"]]},{"id":"單元二-24","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":24,"text":"昔日香港曾經是兩位南宋皇帝【A】之地。「【B】」這個地名，相傳由兩位皇帝所命名，故事充滿神話色彩。","blanks":[{"key":"A","answers":["避難"]},{"key":"B","answers":["九龍"]}],"unordered":[]},{"id":"單元二-25","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":25,"text":"聚星樓是香港現存唯一的【A】，坐落於【B】文物徑的上璋圈北面。據屏山鄧氏族譜所載，聚星樓由鄧族第七世鄧祖彥通所興建，已有超過【C】百年的歷史。","blanks":[{"key":"A","answers":["古塔"]},{"key":"B","answers":["屏山"]},{"key":"C","answers":["六"]}],"unordered":[]},{"id":"單元二-26","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":26,"text":"現位於【A】的美利樓是古歐陸【B】式建築物，建於1844 年，原址在現今【C】大廈的位置，1982年拆卸，【D】年在現址重建。","blanks":[{"key":"A","answers":["赤柱"]},{"key":"B","answers":["維多利亞"]},{"key":"C","answers":["中銀"]},{"key":"D","answers":["1998"]}],"unordered":[]},{"id":"單元二-27","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":27,"text":"「回教清真禮拜堂」為香港【A】座清真禮拜堂，俗稱「【B】」。禮拜堂於1915 年重建，並保留原有的【C】。該堂外形呈長方形，正門為【D】形，四周設有【E】色彩的拱窗。","blanks":[{"key":"A","answers":["首"]},{"key":"B","answers":["摩羅廟"]},{"key":"C","answers":["尖塔"]},{"key":"D","answers":["拱"]},{"key":"E","answers":["阿拉伯"]}],"unordered":[]},{"id":"單元二-28","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":28,"text":"李鄭屋漢墓於【A】年被發現，經考證為【B】期間的古物。","blanks":[{"key":"A","answers":["1955"]},{"key":"B","answers":["東漢"]}],"unordered":[]},{"id":"單元二-29","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":29,"text":"現時的孫中山史蹟徑，以「古今、【A】」為主調，由16項歷史遺跡組成，包括孫中山接受教育的學校及【B】的地方、與友人【C】的場所、以及孫中山與其同志在香港展開【D】活動的地點。","blanks":[{"key":"A","answers":["藝術"]},{"key":"B","answers":["居住"]},{"key":"C","answers":["談論國是"]},{"key":"D","answers":["革命"]}],"unordered":[]},{"id":"單元二-30","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":30,"text":"新界五大族群包括：【A】氏、【B】氏、【C】氏、【D】氏、【E】氏。","blanks":[{"key":"A","answers":["鄧"]},{"key":"B","answers":["文"]},{"key":"C","answers":["廖"]},{"key":"D","answers":["侯"]},{"key":"E","answers":["彭"]}],"unordered":[["A","B","C","D","E"]]},{"id":"單元二-31","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":31,"text":"錦田【A】是鄧氏興建的一條最大規模的古老圍村，始建於【B】代。鄧氏不少旁支亦從錦田一帶遷移到新界各地立業，例如元朗屏山、粉嶺【C】及【D】等地。","blanks":[{"key":"A","answers":["吉慶圍"]},{"key":"B","answers":["明"]},{"key":"C","answers":["龍躍頭"]},{"key":"D","answers":["大埔頭"]}],"unordered":[]},{"id":"單元二-32","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":32,"text":"新界侯氏家族初期在【A】興建村落定居，後來才到其他地方建立村莊。","blanks":[{"key":"A","answers":["河上鄉"]}],"unordered":[]},{"id":"單元二-33","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":33,"text":"新界彭氏家族由廣東【A】遷入新界，一直定居在【B】至今。","blanks":[{"key":"A","answers":["東莞"]},{"key":"B","answers":["粉嶺"]}],"unordered":[]},{"id":"單元二-34","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":34,"text":"新界廖氏家族初落戶於【A】，後來在【B】一帶定居後，便再沒有遷移了。","blanks":[{"key":"A","answers":["屯門"]},{"key":"B","answers":["上水"]}],"unordered":[]},{"id":"單元二-35","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":35,"text":"文氏於【A】末【B】初移居入新界，後來以【C】為族人主要的聚居地。","blanks":[{"key":"A","answers":["元"]},{"key":"B","answers":["明"]},{"key":"C","answers":["新田"]}],"unordered":[]},{"id":"單元二-36","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":36,"text":"香港富有新界圍村宗族特色的文物徑共有兩條，分別為位於元朗的【A】文物徑和粉嶺的【B】文物徑。","blanks":[{"key":"A","answers":["屏山"]},{"key":"B","answers":["龍躍頭"]}],"unordered":[]},{"id":"單元二-37","part":"第一部分：香港知識","unit":"單元二","unitTitle":"香港歷史及相關景點","num":37,"text":"「香港禮賓府」（前稱【A】），為香港特別行政區行政長官的【B】及【C】，【D】年列為法定古蹟。","blanks":[{"key":"A","answers":["總督府"]},{"key":"B","answers":["辦公室"]},{"key":"C","answers":["官邸"]},{"key":"D","answers":["1995"]}],"unordered":[["B","C"]]},{"id":"單元三-1","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":1,"text":"中英兩國在【A】年12月19日簽訂《【B】》，當中載明中華人民共和國對香港的基本方針政策。","blanks":[{"key":"A","answers":["1984"]},{"key":"B","answers":["中英聯合聲明"]}],"unordered":[]},{"id":"單元三-2","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":2,"text":"香港在【A】正式成為中國的特別行政區。根據《基本法》，香港原有的【B】主義制度和【C】方式，最少保持【D】年不變。","blanks":[{"key":"A","answers":["1997年7月1日"]},{"key":"B","answers":["資本"]},{"key":"C","answers":["生活"]},{"key":"D","answers":["50"]}],"unordered":[]},{"id":"單元三-3","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":3,"text":"香港行政長官每屆任期為【A】年，並可連任【B】次。","blanks":[{"key":"A","answers":["五"]},{"key":"B","answers":["一"]}],"unordered":[]},{"id":"單元三-4","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":4,"text":"【A】是協助行政長官決策的機構，每周舉行【B】次會議，由【C】主持。","blanks":[{"key":"A","answers":["行政會議"]},{"key":"B","answers":["一"]},{"key":"C","answers":["行政長官","特首"]}],"unordered":[]},{"id":"單元三-5","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":5,"text":"由2022年7月1日起，香港的行政體系中，共有【A】名司長和【B】名局長。他們的任期為【C】年，不會超逾【D】的任期。他們同時獲委任為【E】成員。","blanks":[{"key":"A","answers":["3"]},{"key":"B","answers":["15"]},{"key":"C","answers":["五"]},{"key":"D","answers":["行政長官"]},{"key":"E","answers":["行政會議"]}],"unordered":[]},{"id":"單元三-6","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":6,"text":"根據《【A】》，香港特區按照「一國兩制」的原則，實行【B】，享有行政管理權、【C】、獨立的【D】和終審權。","blanks":[{"key":"A","answers":["基本法"]},{"key":"B","answers":["高度自治"]},{"key":"C","answers":["立法權"]},{"key":"D","answers":["司法權"]}],"unordered":[]},{"id":"單元三-7","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":7,"text":"香港特別行政區的法律制度以【A】為基礎，與内地的法制有別。《【B】》和《基本法》均保證，中國恢復對香港行使主權後，原有的法律制度得以延續。","blanks":[{"key":"A","answers":["普通法"]},{"key":"B","answers":["中英聯合聲明"]}],"unordered":[]},{"id":"單元三-8","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":8,"text":"【A】於1997年7月1日成立，為香港最高的上訴法院，在聆訊案件時會由【B】位法官主理。","blanks":[{"key":"A","answers":["終審法院"]},{"key":"B","answers":["五"]}],"unordered":[]},{"id":"單元三-9","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":9,"text":"宗教自由是香港居民享有的基本權利之一，受《【A】》和有關法例保障。很多主要宗教團體在香港除了弘揚教義之外，還興辦【B】和提供【C】福利設施。","blanks":[{"key":"A","answers":["基本法"]},{"key":"B","answers":["學校"]},{"key":"C","answers":["衞生"]}],"unordered":[]},{"id":"單元三-10","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":10,"text":"根據《基本法》，香港特別行政區立法會由【A】產生。立法會的產生辦法根據香港特别行政區的實際情況和循序漸進的原則而規定，最終目標是達致全部議員由【B】產生。","blanks":[{"key":"A","answers":["選舉"]},{"key":"B","answers":["普選"]}],"unordered":[]},{"id":"單元三-11","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":11,"text":"按照《基本法》，香港特別行政區可在【A】、貿易、【B】、航運、通訊、【C】、文化、體育等領域以「【D】」的名義，單獨地與世界各國、各地區及有關國際組織保持和發展關係，簽訂和履行有關協議。","blanks":[{"key":"A","answers":["經濟"]},{"key":"B","answers":["金融"]},{"key":"C","answers":["旅遊"]},{"key":"D","answers":["中國香港"]}],"unordered":[["A","B","C"]]},{"id":"單元三-12","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":12,"text":"【A】計劃設有高齡津貼、傷殘津貼及長者生活津貼。高齡津貼及傷殘津貼的目的分別是為年齡在【B】歲或以上，或嚴重殘疾的香港居民，每月提供【C】津貼，以應付因年老或嚴重殘疾而引致的特別需要，不設經濟狀況審查。","blanks":[{"key":"A","answers":["公共福利金"]},{"key":"B","answers":["70"]},{"key":"C","answers":["現金"]}],"unordered":[]},{"id":"單元三-13","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":13,"text":"為全面提升教育質素，香港政府提供【A】年免費教育。本地的中學及小學可分為由政府全額資助的【B】學校和資助學校、由政府提供津貼並收取學費營運的【C】學校，以及以自負盈虧模式運作的私立學校和【D】學校。","blanks":[{"key":"A","answers":["12"]},{"key":"B","answers":["官立"]},{"key":"C","answers":["直資"]},{"key":"D","answers":["國際"]}],"unordered":[]},{"id":"單元三-14","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":14,"text":"香港提供優質、多元、靈活及多階進出的升學途徑予學生接受專上教育。根據教育局網頁，香港有【A】所可頒授本地學位的專上教育院校，其中【B】所獲公帑資助，其餘則【C】營運。","blanks":[{"key":"A","answers":["22"]},{"key":"B","answers":["9"]},{"key":"C","answers":["自資"]}],"unordered":[]},{"id":"單元三-15","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":15,"text":"香港政府推行的幼稚園教育計劃，直接向參加計劃的本地【A】幼稚園提供資助，為所有【B】歲至六歲的合資格兒童提供【C】制優質幼稚園教育服務。","blanks":[{"key":"A","answers":["非牟利"]},{"key":"B","answers":["三"]},{"key":"C","answers":["半日"]}],"unordered":[]},{"id":"單元三-16","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":16,"text":"入境事務處負責的工作主要分為兩大類：第一類是對經海、陸、空三路【A】的人士施行管制；第二類是為本港居民辦理各類證件，包括根據《基本法》而提出的【B】聲稱、簽發【C】證件和身份證，以及辦理生死和【D】登記手續。","blanks":[{"key":"A","answers":["出入境"]},{"key":"B","answers":["居留權"]},{"key":"C","answers":["旅行"]},{"key":"D","answers":["婚姻"]}],"unordered":[]},{"id":"單元三-17","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":17,"text":"醫院管理局是一個獨立機構，負責管理全港所有【A】及轄下的【B】診療所和【C】，為病人提供醫療和康復服務。","blanks":[{"key":"A","answers":["公營醫院"]},{"key":"B","answers":["專科"]},{"key":"C","answers":["外展服務"]}],"unordered":[]},{"id":"單元三-18","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":18,"text":"香港兒童醫院屬於【A】醫院，提供全港性的兒科服務，不設【B】或【C】門診，所有病人均須經【D】或私家醫生轉介。","blanks":[{"key":"A","answers":["專科"]},{"key":"B","answers":["急症室"]},{"key":"C","answers":["普通科"]},{"key":"D","answers":["公立醫院"]}],"unordered":[]},{"id":"單元三-19","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":19,"text":"香港法例第549章《中醫藥條例》全面實施後，香港的中醫可分為三類。第一類是已完成認可的中醫執業本科訓練學位課程，並通過中醫執業資格試的【A】中醫；第二類為只可在指定的教育或科研機構進行中醫藥學方面的臨床教學和研究工作，並且不可作私人執業的【B】中醫；第三類為【C】中醫，他們可在中醫註冊過渡性安排下在香港合法地執業，直至食物及衞生局局長日後在憲報上公佈的日期為止。","blanks":[{"key":"A","answers":["註冊"]},{"key":"B","answers":["有限制註冊"]},{"key":"C","answers":["表列"]}],"unordered":[]},{"id":"單元三-20","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":20,"text":"香港是個交通極為頻繁的城市，每日乘搭公共交通工具的乘客超過【A】萬人次。本港的公共交通服務【B】高、收費【C】而種類繁多，包括鐵路、電車、巴士、公共小型巴士、的士和渡輪等公共交通工具。公共交通服務由私人營辦商或公營機構營辦，政府並無提供直接【D】。","blanks":[{"key":"A","answers":["1,100"]},{"key":"B","answers":["效率"]},{"key":"C","answers":["廉宜"]},{"key":"D","answers":["資助"]}],"unordered":[]},{"id":"單元三-21","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":21,"text":"香港是首個於公共運輸廣泛使用【A】貨幣的地區，目前本港最流通的電子車票兼貨幣系統名為【B】。","blanks":[{"key":"A","answers":["電子"]},{"key":"B","answers":["八達通"]}],"unordered":[]},{"id":"單元三-22","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":22,"text":"【A】管制站是香港最繁忙的管制站，在2025年，出入境旅客高達七千萬人次。","blanks":[{"key":"A","answers":["羅湖"]}],"unordered":[]},{"id":"單元三-23","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":23,"text":"香港的語文教育政策以提升學生「兩文三語」的能力為目標，期望中學畢業生都能夠書寫流暢的【A】和【B】，並有信心用【C】、英語和【D】與人交談。","blanks":[{"key":"A","answers":["中文"]},{"key":"B","answers":["英文"]},{"key":"C","answers":["廣東話"]},{"key":"D","answers":["普通話"]}],"unordered":[["A","B"]]},{"id":"單元三-24","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":24,"text":"香港【A】是負責推行本港大部分公營房屋計劃的法定機構。至於香港【B】則是一個獨立的法定機構，負責提供某些特定類別的資助房屋，協助滿足市民的住屋需要。","blanks":[{"key":"A","answers":["房屋委員會","房委會"]},{"key":"B","answers":["房屋協會"]}],"unordered":[]},{"id":"單元三-25","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":25,"text":"所有的士均可在香港【A】客運大樓、港珠澳大橋（香港口岸）公共運輸交匯處及香港【B】提供服務。","blanks":[{"key":"A","answers":["國際機場"]},{"key":"B","answers":["迪士尼樂園"]}],"unordered":[]},{"id":"單元三-26","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":26,"text":"海底隧道連接紅磡及【A】，實施雙程雙線行車，隧道於【B】年通車。","blanks":[{"key":"A","answers":["銅鑼灣"]},{"key":"B","answers":["1972"]}],"unordered":[]},{"id":"單元三-27","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":27,"text":"【A】隧道南行管道於 1967年通車，是香港第一條行車隧道，連接九龍塘及【B】。","blanks":[{"key":"A","answers":["獅子山"]},{"key":"B","answers":["大圍"]}],"unordered":[]},{"id":"單元三-28","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":28,"text":"【A】隧道為港珠澳大橋香港連接路的一部分，屬於禁區範圍。往珠海方向實施【B】線行車，往香港方向則實施【C】線行車。","blanks":[{"key":"A","answers":["觀景山"]},{"key":"B","answers":["四"]},{"key":"C","answers":["三"]}],"unordered":[]},{"id":"單元三-29","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":29,"text":"截至2026年2月，本港總共有【A】個水塘及【B】間濾水廠。為防止在輸送往用戶途中滋生細菌，食水中會保留微量的【C】，並加入【D】保護牙齒。","blanks":[{"key":"A","answers":["17"]},{"key":"B","answers":["18"]},{"key":"C","answers":["氯氣"]},{"key":"D","answers":["氟化物"]}],"unordered":[]},{"id":"單元三-30","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":30,"text":"政府鑑於香港的天然貯水地點不足，於【A】興建本港第一個「海中水庫」，該水庫的前期工程於1967年完成，先在新界【B】一個海灣的末端築【C】，然後抽出海水而建成。","blanks":[{"key":"A","answers":["船灣"]},{"key":"B","answers":["吐露港"]},{"key":"C","answers":["壩"]}],"unordered":[]},{"id":"單元三-31","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":31,"text":"康樂及文化事務舉辦各類文娛節目，為【A】學生、【B】人士及【C】人士提供各種票價優惠，藉以推廣表演及視覺藝術。","blanks":[{"key":"A","answers":["全日制"]},{"key":"B","answers":["高齡"]},{"key":"C","answers":["殘疾"]}],"unordered":[["B","C"]]},{"id":"單元三-32","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":32,"text":"衞生署於2008年11月啟動「中央器官捐贈」登記名冊，成功於【A】登記成為器官捐贈者，可毋需隨身攜帶【B】，因與器官捐贈有關的醫護人員在捐贈者身故後可從中央器官捐贈登記名冊中得悉其捐贈器官的意願。","blanks":[{"key":"A","answers":["網上"]},{"key":"B","answers":["器官捐贈證"]}],"unordered":[]},{"id":"單元三-33","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":33,"text":"香港的電力主要是由煤、【A】氣和【B】產生，同時亦有應用可再生能源，例如南丫島設有具商業規模的【C】和【D】發電站。","blanks":[{"key":"A","answers":["天然"]},{"key":"B","answers":["核能"]},{"key":"C","answers":["風力"]},{"key":"D","answers":["太陽能"]}],"unordered":[["C","D"]]},{"id":"單元三-34","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":34,"text":"香港的電力是由【A】有限公司和【B】有限公司供應。這兩家公司由投資者擁有，不以【C】方式經營，並已自願與【D】就其財政事宜訂立相互協議。","blanks":[{"key":"A","answers":["中華電力"]},{"key":"B","answers":["香港電燈"]},{"key":"C","answers":["專營權"]},{"key":"D","answers":["政府"]}],"unordered":[["A","B"]]},{"id":"單元三-35","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":35,"text":"天星小輪有限公司於【A】年成立，現時經營【B】條來往港内的渡輪航線。","blanks":[{"key":"A","answers":["1898"]},{"key":"B","answers":["兩"]}],"unordered":[]},{"id":"單元三-36","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":36,"text":"根據《吸煙（公眾衛生）條例》，現時法定禁煙區範圈包括所有食肆處所的【A】地方、公共交通工具、公共運輸設施、公眾遊樂場地和泳灘等，違者定額罰款港幣【B】元。","blanks":[{"key":"A","answers":["室內"]},{"key":"B","answers":["3,000"]}],"unordered":[]},{"id":"單元三-37","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":37,"text":"根據〈吸煙（公眾術生）條例〉規定，除【A】的控煙酒督察及【B】人員外，條例亦授權【C】事務署、【D】署及【E】署的指定人員，在他們管理的場地向違例者發出定額罰款通知書。","blanks":[{"key":"A","answers":["衛生署"]},{"key":"B","answers":["警務"]},{"key":"C","answers":["康樂及文化"]},{"key":"D","answers":["食物環境衞生","食環"]},{"key":"E","answers":["房屋"]}],"unordered":[["D","E"]]},{"id":"單元三-38","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":38,"text":"香港文化中心自【A】年啟用以來，一直是本港重要的演藝場地，更是訪港藝團和大型藝術節的主要演出場地，每年均有不少來自世界各地的知名藝人和本地主要藝術團在此演出，其配置的表演場地包括【B】、【C】和【D】。","blanks":[{"key":"A","answers":["1989"]},{"key":"B","answers":["音樂廳"]},{"key":"C","answers":["大劇院"]},{"key":"D","answers":["劇場"]}],"unordered":[["B","C","D"]]},{"id":"單元三-39","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":39,"text":"於1962年落成啟用的香港【A】，是香港歷史上第一所為市民而建的多用途文娛中心。低座設有【B】、劇院及展覽廳，而高座設有【C】、【D】及演奏廳等。","blanks":[{"key":"A","answers":["大會堂"]},{"key":"B","answers":["音樂廳"]},{"key":"C","answers":["婚姻登記處"]},{"key":"D","answers":["公共圖書館"]}],"unordered":[["C","D"]]},{"id":"單元三-40","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":40,"text":"於1984年成立的香港【A】提供表演藝術（即音樂、舞蹈、戲劇、舞台及製作藝術、電影電視及戲曲）的專業教育，就六個表演藝術範疇開辦【B】和專上教育課程。","blanks":[{"key":"A","answers":["演藝學院"]},{"key":"B","answers":["學士學位"]}],"unordered":[]},{"id":"單元三-41","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":41,"text":"位於【A】的香港藝術中心是一所【B】非牟利的非政府組織，多年來致力推動【C】文化的發展，中心主大樓配備劇場、電影院、畫廊、教室、工作室和餐廳等綜合設施。","blanks":[{"key":"A","answers":["灣仔"]},{"key":"B","answers":["自負盈虧"]},{"key":"C","answers":["當代藝術"]}],"unordered":[]},{"id":"單元三-42","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":42,"text":"香港政府於2021年公布《香港資源循環藍圖2035》，以 「【A】．資源循環．零廢堆填」為願景，積極推動社區回收，設立「【B】」社區回收網絡。","blanks":[{"key":"A","answers":["全民減廢"]},{"key":"B","answers":["綠在區區"]}],"unordered":[]},{"id":"單元三-43","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":43,"text":"將軍澳【A】第一階段已於2023年12月正式啟用，每年最高產量達到5,000萬立方米，最多為香港提供約【B】%的額外食水供應。","blanks":[{"key":"A","answers":["海水化淡廠"]},{"key":"B","answers":["5"]}],"unordered":[]},{"id":"單元三-44","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":44,"text":"為配合發展香港成為區域教育樞紐的政策，「非本地畢業生留港╱回港就業安排」於2008年5月19日推出。來自香港特區以外並在香港修讀經本地評審的【A】課程而獲得【B】或更高資歷的人士（非本地畢業生），可根據此安排申請留港╱回港工作。","blanks":[{"key":"A","answers":["全日制"]},{"key":"B","answers":["學位"]}],"unordered":[]},{"id":"單元三-45","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":45,"text":"由2010年8月1日起，凡年滿18歲的旅客可以免稅攜帶【A】公升在攝氏20度的溫度下量度所得酒精濃度以量計多於【B】%的飲用酒類進入香港，供其本人【C】。持香港身份證的旅客，則必須離港不少於【D】小時才可以享有以上豁免數量。","blanks":[{"key":"A","answers":["1"]},{"key":"B","answers":["30"]},{"key":"C","answers":["自用"]},{"key":"D","answers":["24"]}],"unordered":[]},{"id":"單元三-46","part":"第一部分：香港知識","unit":"單元三","unitTitle":"香港的民生和社會制度","num":46,"text":"由2010年8月1日起，凡年滿18歲的旅客可以免稅攜帶下列煙草產品進入香港，供其本人【A】：【B】支香煙；或1支雪茄(如多於1支雪茄，則總重量不超過【C】克)；或【D】克其他製成煙草。","blanks":[{"key":"A","answers":["自用"]},{"key":"B","answers":["19"]},{"key":"C","answers":["25"]},{"key":"D","answers":["25"]}],"unordered":[]},{"id":"單元四-1","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":1,"text":"香港一向實施寬鬆和開放的入境政策。現時約有【A】個國家和地區的國民，可獲免簽證來港旅遊【B】至【C】日不等。","blanks":[{"key":"A","answers":["170"]},{"key":"B","answers":["7"]},{"key":"C","answers":["180"]}],"unordered":[]},{"id":"單元四-2","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":2,"text":"昂坪360是一個香港的熱門旅遊景點，主要由昂坪纜車及昂坪市集組成。纜車全長【A】公里，單程車程約【B】分鐘，昂坪市集以【C】特色為建築主題。","blanks":[{"key":"A","answers":["5. 7"]},{"key":"B","answers":["25"]},{"key":"C","answers":["文化"]}],"unordered":[]},{"id":"單元四-3","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":3,"text":"昂坪廣場於2010年8月開幕，佔地約1.5公頃，廣場連接【A】寺、【B】大佛、昂坪360纜車、【C】市集及心經簡林。旅客亦可由昂坪廣場前往大嶼山其他別具特色的地方，包括【D】漁村、大嶼山【E】部優美的海灘等。","blanks":[{"key":"A","answers":["寶蓮"]},{"key":"B","answers":["天壇"]},{"key":"C","answers":["昂坪"]},{"key":"D","answers":["大澳"]},{"key":"E","answers":["南"]}],"unordered":[]},{"id":"單元四-4","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":4,"text":"沿寶蓮寺入口旁的昂坪【A】徑，步行約 15 分鐘，便到達鳳凰山山口的【B】，內有由【C】條梨花木木柱，木柱刻上共260字的《【D】心經》。","blanks":[{"key":"A","answers":["奇趣"]},{"key":"B","answers":["心經簡林"]},{"key":"C","answers":["38"]},{"key":"D","answers":["般若波羅蜜多"]}],"unordered":[]},{"id":"單元四-5","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":5,"text":"根據《旅遊業條例》，在新規管制度下，強迫購物和遺棄遊客等不良行為，已被【A】化。導遊必須在遊客抵達香港時將【B】分發給每位旅行團參加者，詳細列出所有【C】活動、【D】和其他費用的收費情況。","blanks":[{"key":"A","answers":["刑事"]},{"key":"B","answers":["行程表"]},{"key":"C","answers":["自費"]},{"key":"D","answers":["服務費"]}],"unordered":[]},{"id":"單元四-6","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":6,"text":"志蓮淨苑位於九龍【A】，是以【B】代【C】構古建築重建的【D】寺群。","blanks":[{"key":"A","answers":["鑽石山"]},{"key":"B","answers":["唐"]},{"key":"C","answers":["木"]},{"key":"D","answers":["佛"]}],"unordered":[]},{"id":"單元四-7","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":7,"text":"【A】祠是由嗇色園興建的香港最著名廟宇之一，供奉【B】師。據說該祠的【C】十分靈驗，每年農曆【D】，慕名而來的善信和遊人絡繹不絕。","blanks":[{"key":"A","answers":["黃大仙"]},{"key":"B","answers":["赤松黃大仙"]},{"key":"C","answers":["籤文"]},{"key":"D","answers":["大年初一"]}],"unordered":[]},{"id":"單元四-8","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":8,"text":"凌霄閣底層為【A】總站，位於凌霄閣最頂層的「【B】」是觀賞維港的絕佳地點。凌霄閣內設有各式商鋪，如果想在室內逛逛，可以到「香港【C】蠟像館」打卡。","blanks":[{"key":"A","answers":["山頂纜車"]},{"key":"B","answers":["摩天台428"]},{"key":"C","answers":["杜莎夫人"]}],"unordered":[]},{"id":"單元四-9","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":9,"text":"全港最高的室內觀景台是「【A】香港觀景台」，位於【B】廣場【C】樓。遊人可以 360 度鳥瞰維多利亞港的美景。觀景台設有多項【D】設施，生動地介紹香港獨特的歷史及文化，讓遊人深入了解香港。","blanks":[{"key":"A","answers":["天際100"]},{"key":"B","answers":["環球貿易"]},{"key":"C","answers":["100"]},{"key":"D","answers":["多媒體"]}],"unordered":[]},{"id":"單元四-10","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":10,"text":"太平山的高度是海拔【A】米，乃欣賞香港風景最佳的地方之一。遊人可以前往位於山頂凌霄閣旁邊的太平山【B】亭拍照，記錄及欣賞維多利亞港兩岸的景色。","blanks":[{"key":"A","answers":["552"]},{"key":"B","answers":["獅子"]}],"unordered":[]},{"id":"單元四-11","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":11,"text":"自香港回歸後，灣仔【A】每天早上【B】時均會舉行國旗及香港特區區旗升旗儀式，由香港【C】主持儀式。","blanks":[{"key":"A","answers":["金紫荊廣場"]},{"key":"B","answers":["八"]},{"key":"C","answers":["警務處"]}],"unordered":[]},{"id":"單元四-12","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":12,"text":"位於香港島南面的海洋公園，環山而建，佔地超過【A】萬平方公尺，公園分為「【B】樂園」及「【C】樂園」兩大景區，由架空纜車及海洋列車連接。","blanks":[{"key":"A","answers":["91"]},{"key":"B","answers":["海濱"]},{"key":"C","answers":["高峰"]}],"unordered":[["B","C"]]},{"id":"單元四-13","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":13,"text":"2024年8月大熊貓【A】於香港海洋公園誕下港產雙胞胎大熊貓寶寶，成為全球最【B】初次產子大熊貓。","blanks":[{"key":"A","answers":["盈盈"]},{"key":"B","answers":["年長"]}],"unordered":[]},{"id":"單元四-14","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":14,"text":"香港海洋公園特別提供不同口味的餐廳以供遊人選擇，【A】餐廳是香港第一間設於水族館內的餐廳。","blanks":[{"key":"A","answers":["海龍王"]}],"unordered":[]},{"id":"單元四-15","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":15,"text":"前往香港迪士尼樂園的遊客可乘搭港鐵迪士尼專線，從【A】站直達香港迪士尼樂園度假區。","blanks":[{"key":"A","answers":["欣澳"]}],"unordered":[]},{"id":"單元四-16","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":16,"text":"香港迪士尼樂園設有以太空科技和星際歷險為主題的【A】、以叢林歷險為主題的【B】、色彩繽紛和滿有童真的【C】大本營、恍似美國西部荒廢小鎮的【D】山谷、放滿探險家各式各樣收藏品的【E】莊園，以及於2023年開、猶如置身阿德爾王國的【F】世界等各個不同園區。","blanks":[{"key":"A","answers":["明日世界"]},{"key":"B","answers":["探險世界"]},{"key":"C","answers":["反斗奇兵"]},{"key":"D","answers":["灰熊"]},{"key":"E","answers":["迷離"]},{"key":"F","answers":["魔雪奇緣"]}],"unordered":[]},{"id":"單元四-17","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":17,"text":"鯉魚門位於觀塘東南部，1960年代起，鯉魚門逐漸發展成為馳名的【A】美食集中地。旅客來到鯉魚門，也可沿海旁漫步至【B】、【C】和【D】，近距離欣賞維多利亞港的醉人景色。","blanks":[{"key":"A","answers":["海鮮"]},{"key":"B","answers":["燈塔"]},{"key":"C","answers":["許願樹"]},{"key":"D","answers":["天后宮"]}],"unordered":[["B","C","D"]]},{"id":"單元四-18","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":18,"text":"香港抗戰及海防博物館位於香港島筲箕灣，以港島筲箕灣具百年歷史的鯉魚門【A】改建而成，是香港首間以【B】歷史為主題的博物館。","blanks":[{"key":"A","answers":["炮台"]},{"key":"B","answers":["海岸防衛"]}],"unordered":[]},{"id":"單元四-19","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":19,"text":"啟德郵輪碼頭位於昔日啟德香港國際機場【A】末端，是香港重要旅遊基建之一。碼頭設有【B】個泊位，可同時容納兩艘總噸位達【C】噸的大型郵輪。","blanks":[{"key":"A","answers":["跑道"]},{"key":"B","answers":["兩"]},{"key":"C","answers":["220,000"]}],"unordered":[]},{"id":"單元四-20","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":20,"text":"位於【A】的廖萬石堂屬於廖氏家族所有。廖氏的遠祖廖剛，父子五人都是高官，每人官祿兩千石，故以此為名。後人為紀念先祖，所以將【B】命名為廖萬石堂。","blanks":[{"key":"A","answers":["上水"]},{"key":"B","answers":["祠堂"]}],"unordered":[]},{"id":"單元四-21","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":21,"text":"三棟屋博物館位於新界荃灣，此處曾是新界歷史最悠久的【A】圍村之一，70年代興建荃灣地鐵站時所有村民已經遷出。三棟屋於1981年被列為【B】，並於1987年修建成為博物館，陳列了古老的【C】和日用品，開放予市民及旅客參觀。","blanks":[{"key":"A","answers":["客家"]},{"key":"B","answers":["法定古蹟"]},{"key":"C","answers":["農具"]}],"unordered":[]},{"id":"單元四-22","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":22,"text":"香港回歸紀念塔位於【A】海濱公園內，是紀念1997年香港回歸中國而興建的大型建築地標之一。香港回歸紀念塔是一座高【B】米的瞭望塔，旅客可登上塔頂，俯瞰整個海濱公園，以及毗鄰【C】。","blanks":[{"key":"A","answers":["大埔"]},{"key":"B","answers":["32.4"]},{"key":"C","answers":["吐露港"]}],"unordered":[]},{"id":"單元四-23","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":23,"text":"滘西洲島上的【A】是本港其中一個研究【B】代以至新石器時代香港歷史的重要古蹟，最近期的一次復修工程奪得2000年度聯合國教育、科學及文化組織首屆「【C】區文物古蹟保護傑出項目獎」。","blanks":[{"key":"A","answers":["洪聖古廟"]},{"key":"B","answers":["漢"]},{"key":"C","answers":["亞太"]}],"unordered":[]},{"id":"單元四-24","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":24,"text":"大埔林村於每年春節在村內的【A】旁舉行「【B】」，是香港在春節期間著名的地區習俗之一。現在政府禁止市民向許願樹投擲寶碟，改以樹桿由【C】製成的仿真細葉榕和祈福架取代。","blanks":[{"key":"A","answers":["天后廟"]},{"key":"B","answers":["林村樹掛"]},{"key":"C","answers":["玻璃鋼"]}],"unordered":[]},{"id":"單元四-25","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":25,"text":"圓玄學院為宗教聖地，供奉【A】、佛、道三教，內有一座仿照北京【B】建成的特色建築。學院還設有「【C】」存集三教的經典及中外研究書刊，為香港道教界最大的圖書館。","blanks":[{"key":"A","answers":["儒"]},{"key":"B","answers":["天壇"]},{"key":"C","answers":["藏經閣"]}],"unordered":[]},{"id":"單元四-26","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":26,"text":"車公廟紀念的車公是宋朝【A】，曾成功平定江南之亂。據說在南宋末年，【B】南下避難，一直獲車公護駕到香港。後來，車公不幸去世，後人為表其忠勇，便為他立廟供奉。","blanks":[{"key":"A","answers":["將軍"]},{"key":"B","answers":["宋帝昺"]}],"unordered":[]},{"id":"單元四-27","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":27,"text":"沙田車公廟現由【A】委員會大規模修葺和擴建而成。廟宇四面築有圍牆，正門兩旁擺放了一對【B】。廟宇為【C】式的建築，大殿名為「車公殿」。","blanks":[{"key":"A","answers":["華人廟宇"]},{"key":"B","answers":["石獅子"]},{"key":"C","answers":["一進"]}],"unordered":[]},{"id":"單元四-28","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":28,"text":"沿著中環的戶外【A】向上走，在荷李活道以南，史丹頓街、伊利近街至些利街一帶，可以找到「【B】美食區」，是蘭桂坊以西的新興飲食地帶。","blanks":[{"key":"A","answers":["自動扶梯"]},{"key":"B","answers":["SOHO","荷南"]}],"unordered":[]},{"id":"單元四-29","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":29,"text":"深水埗區是香港最早期的【A】中心之一，現已逐漸轉型為商業及【B】中心。「深水埗」之名的由來，據說是因為從前於現今北河街和通州街交界有一個深水【C】，而「埗」與「埠」的意思相通。不過，由於填海的關係，海岸線早已改變，現時該處已經找不到痕跡。","blanks":[{"key":"A","answers":["工商業"]},{"key":"B","answers":["物流"]},{"key":"C","answers":["碼頭"]}],"unordered":[]},{"id":"單元四-30","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":30,"text":"售賣無線電、收音機、錄音機、擴音器等零件和器材的【A】與長沙灣道一街之隔，20多年前已發展為「【B】」，店鋪和攤檔售賣的貨品價格一般比較便宜，而且貨品齊備，能為旅客提供另類的購物樂趣。","blanks":[{"key":"A","answers":["鴨寮街"]},{"key":"B","answers":["跳蚤市場"]}],"unordered":[]},{"id":"單元四-31","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":31,"text":"中銀大廈有70層樓高，由享譽全球的美籍華裔建築師【A】設計，建築設計靈感源自竹子的「節節高升」，由4個像似不同高度結晶體般的【B】柱身組成。","blanks":[{"key":"A","answers":["貝聿銘"]},{"key":"B","answers":["三角"]}],"unordered":[]},{"id":"單元四-32","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":32,"text":"大館內的三大法定古蹟包括前【A】、【B】及【C】，大館是昔日公眾對前【D】總部以至整個建築群的簡稱。大館於2019年獲頒聯合國教科文組織亞太區文化遺產保護獎【E】獎項，為此獎項中最高殊榮，肯定了活化計劃卓越的保育及活化成就。","blanks":[{"key":"A","answers":["中區警署"]},{"key":"B","answers":["域多利監獄"]},{"key":"C","answers":["中央裁判司署"]},{"key":"D","answers":["警察"]},{"key":"E","answers":["卓越"]}],"unordered":[["A","B","C"]]},{"id":"單元四-33","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":33,"text":"上環摩羅街分為摩羅上街及下街，是香港著名的【A】集散地，其英文街道名字「lascar」一詞源自葡萄牙語，指的是從南非開普角以東地區來的【B】。","blanks":[{"key":"A","answers":["古董"]},{"key":"B","answers":["水手"]}],"unordered":[]},{"id":"單元四-34","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":34,"text":"灣仔區原是港島北海岸的一個小漁村，由於地理上處於較低位置，昔日又稱為「【A】」。自1920年代起，政府在灣仔區進行數次大型【B】工程，築起今日的皇后大道東、告士打道及會議道等，灣仔區逐漸發展成現時的規模。","blanks":[{"key":"A","answers":["下環"]},{"key":"B","answers":["填海"]}],"unordered":[]},{"id":"單元四-35","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":35,"text":"於九龍的主題購物街很多。最著名的包括早期以售賣女人貨品為主的旺角【A】，以及位於油麻地、以大排檔美食及平價商品聞名的【B】夜市。","blanks":[{"key":"A","answers":["女人街","通菜街"]},{"key":"B","answers":["廟街"]}],"unordered":[]},{"id":"單元四-36","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":36,"text":"位於弼街至旺角道之間的另一段通菜街俗稱「【A】」，有各式各樣的【B】用品發售。此外，旺角的「【C】」亦是極富色彩的觀光市集，這裡有不少奇花異卉與家居盆栽任君選擇，附近的【D】則是香港鳥禽飼養者最喜愛流連的「雀鳥花園」。","blanks":[{"key":"A","answers":["金魚街"]},{"key":"B","answers":["水族"]},{"key":"C","answers":["花墟"]},{"key":"D","answers":["園圃街"]}],"unordered":[]},{"id":"單元四-37","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":37,"text":"觀塘海濱花園位於觀塘繞道旁，前身為觀塘公眾貨物【A】。花園有長約1公里的海濱步道，讓遊人近距離欣賞【B】和跑道公園、遠眺【C】的景色。","blanks":[{"key":"A","answers":["裝卸區"]},{"key":"B","answers":["啟德郵輪碼頭"]},{"key":"C","answers":["港島東"]}],"unordered":[]},{"id":"單元四-38","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":38,"text":"「【A】」一名的由來，流傳坊間的說法很多，當中最為人熟悉的是指從前該處有一棵巨大木棉樹，每當木棉花盛開時，乍看猶如一座「赤紅的木柱」。","blanks":[{"key":"A","answers":["赤柱"]}],"unordered":[]},{"id":"單元四-39","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":39,"text":"赤柱附近有多座歷史悠久的重要建築物，包括建於1767年南區最古舊的【A】、已列為法定古跡的舊赤柱【B】，還有屹立在赤柱廣場的【C】等。","blanks":[{"key":"A","answers":["天后廟"]},{"key":"B","answers":["警署"]},{"key":"C","answers":["美利樓"]}],"unordered":[]},{"id":"單元四-40","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":40,"text":"青馬大橋於【A】年5月通車，是當時連接大嶼山香港國際機場及市區的幹線公路。它不單是香港一個主要的建築標誌，更曾為全球最長的【B】及【C】兩用懸索吊橋。","blanks":[{"key":"A","answers":["1997"]},{"key":"B","answers":["行車"]},{"key":"C","answers":["鐵路"]}],"unordered":[["B","C"]]},{"id":"單元四-41","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":41,"text":"黃金海岸的【A】及【B】均採用歐陸式建築風格：桃紅色的外牆、圓拱形的窗框，還有亮麗的三角屋脊，是取景拍照的絕佳地點。","blanks":[{"key":"A","answers":["酒店"]},{"key":"B","answers":["購物商場"]}],"unordered":[["A","B"]]},{"id":"單元四-42","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":42,"text":"黃金沙灘位於青山公路 18 咪半，與【A】接連，總面積約7.85 公頃，全長 545 米，是【B】區最大的海灘，亦是全港首個【C】沙灘，鋪上的海沙由內地【D】運來，沙質幼細。","blanks":[{"key":"A","answers":["新咖啡灣"]},{"key":"B","answers":["屯門"]},{"key":"C","answers":["人造"]},{"key":"D","answers":["海南島"]}],"unordered":[]},{"id":"單元四-43","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":43,"text":"望夫石位於【A】區的紅梅谷對上一個矗立在西南面的小丘之上，海拔約 250 多米，是【B】山系的一座小山，外形仿似一個背著【C】的婦人。傳說有一個【D】的妻子每天等待下落不明的丈夫回來，有一天，忽然雷電大作，風雨交加，這個婦人和她的小孩就變成現時著名的望夫石。","blanks":[{"key":"A","answers":["沙田"]},{"key":"B","answers":["獅子"]},{"key":"C","answers":["小孩"]},{"key":"D","answers":["漁民"]}],"unordered":[]},{"id":"單元四-44","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":44,"text":"滘西洲公眾哥爾夫球場，是香港第一個不設【A】制度的公眾哥爾夫球場，場內設有三個【B】洞的高爾夫球場、一個有 60 條球道的練習場、短距離揮球練習場、高爾夫球用品專門店專門店及餐廳。","blanks":[{"key":"A","answers":["會籍"]},{"key":"B","answers":["18"]}],"unordered":[]},{"id":"單元四-45","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":45,"text":"「大澳漁村」沿著大澳灣邊上而建，村內的【A】是這個小漁村的地標。大澳文物酒店位於大澳石仔埗舊街【B】旁的一個小丘上，前身為建於1902年的大澳【C】。","blanks":[{"key":"A","answers":["水上棚屋"]},{"key":"B","answers":["渡輪碼頭"]},{"key":"C","answers":["警署"]}],"unordered":[]},{"id":"單元四-46","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":46,"text":"在香港吃的「中國菜」，其實一般都是【A】省菜式。","blanks":[{"key":"A","answers":["廣東"]}],"unordered":[]},{"id":"單元四-47","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":47,"text":"茶餐廳為香港文化的一部分，前身其實即是幾十年前「【A】」。茶餐廳的出現源於二十世紀中期，香港受西式生活習慣影響，一些華人喜歡上【B】或【C】，但不會光顧為外國人而設、收費昂貴的西餐廳，茶餐廳於是應運而生。","blanks":[{"key":"A","answers":["冰室"]},{"key":"B","answers":["飲西茶"]},{"key":"C","answers":["喝咖啡"]}],"unordered":[["B","C"]]},{"id":"單元四-48","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":48,"text":"香港美酒佳餚巡禮由香港【A】主辦，是亞洲大型飲食展覽之一，活動展示來自【B】的佳釀，是一個集美酒、美食、節慶和娛樂於一身的一項盛事。","blanks":[{"key":"A","answers":["旅遊發展局"]},{"key":"B","answers":["世界各地"]}],"unordered":[]},{"id":"單元四-49","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":49,"text":"在新界區，最佳的觀鳥點包括尖鼻咀、大帽山、燕崗（松柏塱）、【A】、【B】自然護理區和【C】自然保護區。","blanks":[{"key":"A","answers":["城門水塘"]},{"key":"B","answers":["大埔滘"]},{"key":"C","answers":["米埔"]}],"unordered":[]},{"id":"單元四-50","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":50,"text":"郊野公園約佔全港土地【A】%，公園內設有各種不同類型、【B】和【C】的郊遊路徑，供遊人作遠足或漫步，切合不同類型遊人的需求。","blanks":[{"key":"A","answers":["40"]},{"key":"B","answers":["長度"]},{"key":"C","answers":["難度"]}],"unordered":[["B","C"]]},{"id":"單元四-51","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":51,"text":"中西區位於香港島西北部，是香港開埠初期最早發展的社區之一。其後經濟發展，人口增加，政府多次【A】增闢土地，包括了現時的德輔道、干諾道和德輔道。","blanks":[{"key":"A","answers":["填海"]}],"unordered":[]},{"id":"單元四-52","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":52,"text":"九龍城古稱「【A】」，城內曾建有【B】座瞭望台，共開有城門【C】道，元明兩代均派有衙門駐軍，清代期間更興建【D】以加強防衛。","blanks":[{"key":"A","answers":["九龍寨城"]},{"key":"B","answers":["六"]},{"key":"C","answers":["四"]},{"key":"D","answers":["炮台"]}],"unordered":[]},{"id":"單元四-53","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":53,"text":"日軍佔據香港期間，由於要擴建【A】，九龍寨城的全部圍牆被拆去，只剩下城內的房屋。大戰之後，城寨範圍不斷擴展，直至【B】年中英國兩國政府達成全面清拆寨城協議。","blanks":[{"key":"A","answers":["機場"]},{"key":"B","answers":["1987"]}],"unordered":[]},{"id":"單元四-54","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":54,"text":"啟德體育園內的設施包括可容納50,000名觀眾的「啟德【A】」；提供一站式運動休閒、娛樂及購物體驗的「啟德【B】」；專為各種活動而設計的室內運動中心「啟德【C】」及設有5,000個座位的公眾運動場「啟德【D】」。","blanks":[{"key":"A","answers":["主場館"]},{"key":"B","answers":["零售館"]},{"key":"C","answers":["體藝館"]},{"key":"D","answers":["青年運動場"]}],"unordered":[]},{"id":"單元四-55","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":55,"text":"【A】眺望台位於深水埗區畢架山花園，這裡是俯覽九龍半島和【B】景致的絕佳地點。","blanks":[{"key":"A","answers":["龍翔道"]},{"key":"B","answers":["維多利亞港"]}],"unordered":[]},{"id":"單元四-56","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":56,"text":"現時香港全日24小時通關的出入境管制站包括：香港國際機場、港澳客輪碼頭、【A】和【B】。","blanks":[{"key":"A","answers":["落馬洲"]},{"key":"B","answers":["港珠澳大橋"]}],"unordered":[["A","B"]]},{"id":"單元四-57","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":57,"text":"香港儲水量最大的水庫是位於西貢的【A】。","blanks":[{"key":"A","answers":["萬宜水庫"]}],"unordered":[]},{"id":"單元四-58","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":58,"text":"香港佔地面積最大的購物商場是【A】，佔地200萬平方呎。","blanks":[{"key":"A","answers":["海港城"]}],"unordered":[]},{"id":"單元四-59","part":"第一部分：香港知識","unit":"單元四","unitTitle":"香港的旅遊概況","num":59,"text":"香港最長的道路是【A】，全長【B】公里。","blanks":[{"key":"A","answers":["青山公路"]},{"key":"B","answers":["52"]}],"unordered":[]},{"id":"單元五-1","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":1,"text":"在香港最為普及的宗教是【A】、【B】、【C】、【D】及【E】。","blanks":[{"key":"A","answers":["佛教"]},{"key":"B","answers":["天主教"]},{"key":"C","answers":["基督教"]},{"key":"D","answers":["伊斯蘭教"]},{"key":"E","answers":["道教"]}],"unordered":[["A","B","C","D","E"]]},{"id":"單元五-2","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":2,"text":"佛教於【A】時期傳入中國內地，大部份漢族地區信奉【B】佛教，西藏、內蒙等西北地區信奉【C】，雲南等少數民族地區信奉【D】佛教（南傳上部座佛教）。","blanks":[{"key":"A","answers":["西漢"]},{"key":"B","answers":["大乘"]},{"key":"C","answers":["喇嘛教"]},{"key":"D","answers":["小乘"]}],"unordered":[]},{"id":"單元五-3","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":3,"text":"《道藏》是道教經籍的總集，其中明代《【A】道藏》和《【B】道藏》共 5,485 卷，收有1,476 種著作。","blanks":[{"key":"A","answers":["正統"]},{"key":"B","answers":["萬曆續"]}],"unordered":[["A","B"]]},{"id":"單元五-4","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":4,"text":"道教宗旨追求【A】，有一整套修煉的方法，分為內養、【B】和房中術。","blanks":[{"key":"A","answers":["長生不死"]},{"key":"B","answers":["外養"]}],"unordered":[]},{"id":"單元五-5","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":5,"text":"中國農曆二月二十一日被稱為「【A】日」，又名「【B】開口日」，傳統習俗亦為【C】的日子，小人是指那些喜歡挑撥離間，惹是生非的人，亦可象徵無故惹來的是非或惡運。通過這個傳統儀式，可祈求【D】，化險為夷。","blanks":[{"key":"A","answers":["驚蟄"]},{"key":"B","answers":["白虎"]},{"key":"C","answers":["打小人"]},{"key":"D","answers":["消災解困"]}],"unordered":[]},{"id":"單元五-6","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":6,"text":"「拜太歲」是中國【A】文化的一個環節，也是民間一種化煞消災、祈福納吉的傳統習俗。六十太歲神的中央是一位長着【B】、三目及【C】的神尊，相傳是六十太歲神的【D】，被稱為「斗姆元君」，也稱斗姥元君。","blanks":[{"key":"A","answers":["道教"]},{"key":"B","answers":["四臉"]},{"key":"C","answers":["八臂"]},{"key":"D","answers":["母親"]}],"unordered":[["B","C"]]},{"id":"單元五-7","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":7,"text":"拜太歲的地點包括；油麻地榕樹頭【A】廟、荷李活道【B】廟、荃灣的【C】、屯門【D】、皇后大道中【E】和筲箕灣東大街天后廟。","blanks":[{"key":"A","answers":["天后"]},{"key":"B","answers":["文武"]},{"key":"C","answers":["圓玄學院"]},{"key":"D","answers":["青松觀"]},{"key":"E","answers":["洪聖古廟"]}],"unordered":[]},{"id":"單元五-8","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":8,"text":"天后誕以【A】灣的傳統祭典最為盛大，但最多姿多彩的慶典，還屬元朗的天后誕。除了可以觀賞繽紛熱鬧的「【B】」巡游、雜耍表演、舞獅及其它傳統民間表演之外，到元朗天后廟觀看進香人潮和善男信女投「【C】」的場面，也十分吸引人。","blanks":[{"key":"A","answers":["大廟"]},{"key":"B","answers":["飄色"]},{"key":"C","answers":["花炮"]}],"unordered":[]},{"id":"單元五-9","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":9,"text":"農曆正月廿六日是「【A】」的日子。坊間流傳仙間的【B】個護法羅漢，分別化身為【C】，前往觀音廟化緣，目的是為了試驗觀音大士的法力。慈悲為懷的觀音大士，於是大開倉庫，讓衪們享受【D】，其後更分賜給民間百姓享用。","blanks":[{"key":"A","answers":["觀音開庫"]},{"key":"B","answers":["五百"]},{"key":"C","answers":["和尚"]},{"key":"D","answers":["齋菜"]}],"unordered":[]},{"id":"單元五-10","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":10,"text":"農曆四月或五月長洲舉行【A】活動，又名「【B】節」，節目包括【C】巡遊、舞獅及各項宗教儀式等。據說清代期間，長洲曾遭遇一場風災，災后瘟疫流行，導致許多居民死亡，島上居民便發起了活動，替居民【D】和為死去的人超度亡魂。","blanks":[{"key":"A","answers":["太平清醮"]},{"key":"B","answers":["包山"]},{"key":"C","answers":["飄色"]},{"key":"D","answers":["祈福"]}],"unordered":[]},{"id":"單元五-11","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":11,"text":"天干和地支共有【A】個天干和【B】個地支。天干和地支組合便成為以「【C】」為首的六十干支【D】。","blanks":[{"key":"A","answers":["十"]},{"key":"B","answers":["十二"]},{"key":"C","answers":["甲子"]},{"key":"D","answers":["循環"]}],"unordered":[]},{"id":"單元五-12","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":12,"text":"一年有【A】個節氣，在月首的稱「節」，月中的稱「中氣」，簡稱為「氣」。據說，節氣是【B】氏制訂出來的。","blanks":[{"key":"A","answers":["二十四"]},{"key":"B","answers":["神農"]}],"unordered":[]},{"id":"單元五-13","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":13,"text":"傳統的廣東婚禮，一般都是先由「【A】」在兩家之間奔走撮合。古時的婚禮要經過「【B】」及「【C】」程序才算正式完婚。","blanks":[{"key":"A","answers":["媒人"]},{"key":"B","answers":["三書"]},{"key":"C","answers":["六禮"]}],"unordered":[["B","C"]]},{"id":"單元五-14","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":14,"text":"「盂蘭節」源自一個關於【A】超渡【B】及一眾亡魂的典故，這個傳說一直流傳後世，逐漸形成一種民間習俗。","blanks":[{"key":"A","answers":["目連"]},{"key":"B","answers":["亡母"]}],"unordered":[]},{"id":"單元五-15","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":15,"text":"道教的八仙包括：【A】、【B】、【C】、藍采和、【D】、張果老、漢鍾離和曹國舅。","blanks":[{"key":"A","answers":["鐵柺李"]},{"key":"B","answers":["何仙姑"]},{"key":"C","answers":["呂洞賓"]},{"key":"D","answers":["韓湘子"]}],"unordered":[["A","B","C","D"]]},{"id":"單元五-16","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":16,"text":"「太平洪朝」是粉嶺圍【A】氏在每年正月十五和十六日舉行的的大型宗族性祭祀活動。「太平洪朝」宗族性祭祀活動中，有「搶雞毛」及「扒船」的傳統活動。雞毛代表【B】，奪得雞毛者，來年就會諸事順利。「扒船」儀式的目的為淨化社區，由【C】名村內男丁抬住【D】船走遍千間屋，沿門逐疫，收集村民「不潔之物」。最後將不潔東西和紙船火化，以示送走災害和疾病。","blanks":[{"key":"A","answers":["彭"]},{"key":"B","answers":["吉利"]},{"key":"C","answers":["8"]},{"key":"D","answers":["紙"]}],"unordered":[]},{"id":"單元五-17","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":17,"text":"中國傳統節日中，除了有農曆新年， 還有【A】、【B】、【C】和【D】四個主要節日。","blanks":[{"key":"A","answers":["清明節"]},{"key":"B","answers":["端午節"]},{"key":"C","answers":["中秋節"]},{"key":"D","answers":["重陽節"]}],"unordered":[["A","B","C","D"]]},{"id":"單元五-18","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":18,"text":"漁民婚禮傳統儀式中，準新娘會【A】她的家人、準新郎及媒人等，原因是她要有好一段時間不能回到娘家。","blanks":[{"key":"A","answers":["哭罵"]}],"unordered":[]},{"id":"單元五-19","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":19,"text":"結婚當天，廣東新娘會和丈夫跪拜【A】。在古時，這是婚禮被認受的象徵。新娘會於結婚後【B】天回娘家探望家人，她的丈夫會帶同【C】回去，以求婚姻一切如意。","blanks":[{"key":"A","answers":["祖先"]},{"key":"B","answers":["三"]},{"key":"C","answers":["乳豬"]}],"unordered":[]},{"id":"單元五-20","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":20,"text":"春節是香港人最重視的節日之一，喜慶氣氛十分濃厚。市民在年三十晚吃過年夜飯後會去逛【A】，從大年初一到【B】期間，親友們都會給未婚男女派送【C】。","blanks":[{"key":"A","answers":["花市"]},{"key":"B","answers":["元宵","新十五"]},{"key":"C","answers":["紅包","利是"]}],"unordered":[]},{"id":"單元五-21","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":21,"text":"春節期間香港會舉行不同的大型喜慶活動賀歲，大年初一有【A】巡遊，聯同本地和國際表演隊伍，演出街頭雜技、音樂演奏等節目；大年初二晚上，維多利亞港都會舉行【B】匯演，九龍尖沙咀海旁和香港中環海旁一帶，是人們觀看煙火最佳地帶；年初三在沙田舉行的賀歲【C】，也是春節的主要節目。","blanks":[{"key":"A","answers":["花車"]},{"key":"B","answers":["煙花"]},{"key":"C","answers":["賽馬"]}],"unordered":[]},{"id":"單元五-22","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":22,"text":"每年中秋前後一連三晚（農歷八月十四、十五、十六），【A】居民都會在區內的大街小巷舞火龍遊行，祈求合境平安。在最後一晚，還有「【B】」儀式。功成身退的火龍，會被送到銅鑼灣【C】拋下海去。但1982年後，為了環保，儀式過後，有關當局會馬上派人把火龍撈上來，送到 焚化爐焚化。","blanks":[{"key":"A","answers":["大坑"]},{"key":"B","answers":["龍歸天"]},{"key":"C","answers":["避風塘"]}],"unordered":[]},{"id":"單元五-23","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":23,"text":"康文署屬下有 7 間主要博物館，包括：以保存中國文化遺產以及推廣本地藝術為任務的香港【A】館；採用互動式展品說明各種科學原理及科技如何改善生活質素的香港【B】館；以教育及娛樂並重的方式，為參觀者提供天文及太空科學知識的香港【C】館；提供涵蓋歷史、藝術及文化各範疇等綜合性資訊的香港文化博物館；搜集、保存、整理、研究和展覽與香港及華南地區的考古、歷史、民俗及自然歷史有關文物的香港【D】博物館；以本港過去600年海防歷史為主題的香港【E】博物館及全面地闡述孫中山先生事跡的孫中山紀念館。","blanks":[{"key":"A","answers":["藝術"]},{"key":"B","answers":["科學"]},{"key":"C","answers":["太空"]},{"key":"D","answers":["歷史"]},{"key":"E","answers":["抗戰及海防"]}],"unordered":[]},{"id":"單元五-24","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":24,"text":"康文署屬下有 8 間小規模的博物館，包括：以專題推廣中國茶藝文化的【A】館；展出漢墓出土文物及有關漢代日常生活和文化歷史的【B】博物館；展覽有關客家村屋的背景和修復及反映當時民俗生活的【C】民俗館、上窰民俗文物館及【D】博物館；以舊大埔墟火車站大樓、古老車卡、蒸氣火車頭及柴油電動機車頭等構成的香港【E】博物館；見證香港消防歷史的【F】滅火輪展覽館；及專責蒐集和保存香港電影及相關物品的香港電影資料館。","blanks":[{"key":"A","answers":["茶具文物"]},{"key":"B","answers":["李鄭屋漢墓"]},{"key":"C","answers":["羅屋"]},{"key":"D","answers":["三棟屋"]},{"key":"E","answers":["鐵路"]},{"key":"F","answers":["葛量洪號"]}],"unordered":[]},{"id":"單元五-25","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":25,"text":"康文署轄下的兩個文化空間包括：前身為香港【A】會的「油街實現」，是一座【B】級歷史建築，現時是一個全新的藝術空間，推廣及展示本地當代【C】藝術。另外，由昔日【D】改建而成的香港視覺藝術中心，糅合【E】世紀西方的建築風格與現代元素，為藝術工作提供研習場所，並舉辦各類型藝術活動。","blanks":[{"key":"A","answers":["皇家遊艇"]},{"key":"B","answers":["二"]},{"key":"C","answers":["視覺"]},{"key":"D","answers":["英軍營房"]},{"key":"E","answers":["十九"]}],"unordered":[]},{"id":"單元五-26","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":26,"text":"【A】辦事處負責管理香港文物探知館。香港文物探知館位處【B】前威菲路軍營 S61 及 S62 座，致力向公眾展示和闡釋有關考古及歷史建築的【C】工作，藉此增進市民對共同擁有的【D】的認識，探索及享受當中的樂趣，並肯定文物保育的價值。","blanks":[{"key":"A","answers":["古物古蹟"]},{"key":"B","answers":["九龍公園"]},{"key":"C","answers":["文物保護"]},{"key":"D","answers":["文化遺產"]}],"unordered":[]},{"id":"單元五-27","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":27,"text":"香港的公共圖書館的自動化系統，是世界上最大型的【A】兼容圖書館自動化系統之一。","blanks":[{"key":"A","answers":["雙語"]}],"unordered":[]},{"id":"單元五-28","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":28,"text":"西九文化區是香港特區政府為配合香港長遠的【A】基建及發展需要所作出的一項重要策略性投資，政府為此成立【B】機構西九文化區管理局，負責推展計劃。","blanks":[{"key":"A","answers":["文化藝術"]},{"key":"B","answers":["法定"]}],"unordered":[]},{"id":"單元五-29","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":29,"text":"M+是一個嶄新的【A】，致力於收藏、展示與詮釋二十及二十一世紀的【B】、設計及【C】、流動影像，以及香港視覺文化。","blanks":[{"key":"A","answers":["博物館"]},{"key":"B","answers":["視覺藝術"]},{"key":"C","answers":["建築"]}],"unordered":[]},{"id":"單元五-30","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":30,"text":"香港文化博物館採用中國傳統【A】佈局，並揉合現代建築技巧，別具特色。全館樓高【B】層，總面積達28,500平方米。","blanks":[{"key":"A","answers":["四合院"]},{"key":"B","answers":["5"]}],"unordered":[]},{"id":"單元五-31","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":31,"text":"香港故宮文化博物館位於西九文化區【A】端，是西九文化區管理局與【B】博物院的合作項目，由【C】撥捐35億港元成立，並於2023至2031年期間支持其部分年度大型展覽及教育項目。","blanks":[{"key":"A","answers":["西"]},{"key":"B","answers":["故宮"]},{"key":"C","answers":["香港賽馬會"]}],"unordered":[]},{"id":"單元五-32","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":32,"text":"戲曲中心的外型以一盞傳統中國【A】為設計概念，糅合傳統與現代元素，流線外型及半開放的中庭空間體現「【B】」的概念，主要設施包括設備先進的大劇院、精緻的【C】劇場、四個專業排演室及一個演講廳等。","blanks":[{"key":"A","answers":["彩燈"]},{"key":"B","answers":["氣"]},{"key":"C","answers":["茶館"]}],"unordered":[]},{"id":"單元五-33","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":33,"text":"香港漁民視天后為海上守護神，信眾甚多，每逢農曆【A】的天后誕辰，漁民都會在漁船上張燈結彩，集合前往天后廟前參拜，以祈求來年風調雨順。","blanks":[{"key":"A","answers":["三月二十三日"]}],"unordered":[]},{"id":"單元五-34","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":34,"text":"傳統的廣東婚禮過程中所用的文書，包括【A】、禮書和迎書。由求婚至完婚的整個結婚過程，包括納采、【B】、納吉、納徵、請期和【C】。","blanks":[{"key":"A","answers":["聘書"]},{"key":"B","answers":["問名"]},{"key":"C","answers":["親迎"]}],"unordered":[["B","C"]]},{"id":"單元五-35","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":35,"text":"根據首份「香港非物質文化遺產代表作名錄」，具有高文化價值和急需保存的表演藝術項目包括：西貢坑口客家【A】、全真道堂科儀音樂、【B】和【C】。","blanks":[{"key":"A","answers":["舞麒麟"]},{"key":"B","answers":["粵劇"]},{"key":"C","answers":["南音"]}],"unordered":[["B","C"]]},{"id":"單元五-36","part":"第一部分：香港知識","unit":"單元五","unitTitle":"香港的文化與風俗","num":36,"text":"根據首份「香港非物質文化遺產代表作名錄」，具有高文化價值和急需保存的傳統手工藝包括：【A】（斲琴技藝）、港式【B】製作技藝、紮作技藝、香港中式長衫和【C】製作技藝、【D】搭建技藝等。","blanks":[{"key":"A","answers":["古琴藝術"]},{"key":"B","answers":["奶茶"]},{"key":"C","answers":["裙褂"]},{"key":"D","answers":["戲棚"]}],"unordered":[]},{"id":"單元六及八-1","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":1,"text":"為香港取得史上首面奧運金牌的運動員是【A】，她於一九九六年美國亞特蘭大奧運會【B】項目上力壓群雌奪冠。","blanks":[{"key":"A","answers":["李麗珊"]},{"key":"B","answers":["滑浪風帆"]}],"unordered":[]},{"id":"單元六及八-2","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":2,"text":"「【A】」佈滿了逾百顆「星星」的牌匾，展示了逾百個經典巨星的【B】和【C】。遊人可用智能手機掃描牌匾上的二維碼，瀏覽巨星簡介和收看經精心挑選的【D】。","blanks":[{"key":"A","answers":["星光大道"]},{"key":"B","answers":["掌印"]},{"key":"C","answers":["簽名"]},{"key":"D","answers":["電影短片"]}],"unordered":[["B","C"]]},{"id":"單元六及八-3","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":3,"text":"「星光大道」於2019重開後，卡通人物【A】銅像、【B】女神和明星銅像的底座都已翻新，遊人更可利用【C】技術與李小龍及梅艷芳互動合照。","blanks":[{"key":"A","answers":["麥兜"]},{"key":"B","answers":["金像奬"]},{"key":"C","answers":["AR","擴增實境"]}],"unordered":[]},{"id":"單元六及八-4","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":4,"text":"在本港，只有「香港【A】」才是政府唯一認可營辦賽馬、六合彩及【B】博彩活動的機構。","blanks":[{"key":"A","answers":["賽馬會"]},{"key":"B","answers":["足球"]}],"unordered":[]},{"id":"單元六及八-5","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":5,"text":"在香港進行賽馬投注，一場賽事選中第一名馬匹稱為【A】；一場賽事選中第一、第二或第三名馬匹稱為【B】； 一場賽事不論次序選中第一及第二名稱為【C】；一場賽事選中前三名馬匹任何兩匹稱為【D】；一場賽事順序選中第一、第二及第三名馬匹稱為【E】。","blanks":[{"key":"A","answers":["獨贏"]},{"key":"B","answers":["位置"]},{"key":"C","answers":["連贏"]},{"key":"D","answers":["位置Q"]},{"key":"E","answers":["三重彩"]}],"unordered":[]},{"id":"單元六及八-6","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":6,"text":"《【A】：殲滅世紀》曾在【B】益豐大廈天台取景；《【C】：黑夜之神》、《盜墓者羅拉：生命之匙》曾在【D】二期取景。","blanks":[{"key":"A","answers":["變形金剛"]},{"key":"B","answers":["土瓜灣"]},{"key":"C","answers":["蝙蝠俠"]},{"key":"D","answers":["國際金融中心"]}],"unordered":[]},{"id":"單元六及八-7","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":7,"text":"遠足活動在香港日趨普遍。根據漁護署的資料，深受遠足人士歡迎的四條長途遠足徑包括：【A】徑、【B】徑、【C】徑及【D】徑。為向市民介紹不同遠足路線，康文署印發《【E】》小冊子及特設網頁提供相關資料。","blanks":[{"key":"A","answers":["麥理浩"]},{"key":"B","answers":["鳳凰"]},{"key":"C","answers":["港島"]},{"key":"D","answers":["衛奕信"]},{"key":"E","answers":["行山樂"]}],"unordered":[["A","B","C","D"]]},{"id":"單元六及八-8","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":8,"text":"香港藝術中心【A】電影院是首個以香港演員命名的電影院。","blanks":[{"key":"A","answers":["古天樂"]}],"unordered":[]},{"id":"單元六及八-9","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":9,"text":"香港電影資料館坐落於港島東【A】海傍的永久館址於2001年啟用，樓高五層，樓面總面積約【B】平方米，設有小型【C】、展覽廳、資源中心、藏品庫及【D】工作室。","blanks":[{"key":"A","answers":["西灣河"]},{"key":"B","answers":["7,200"]},{"key":"C","answers":["電影院"]},{"key":"D","answers":["修復"]}],"unordered":[]},{"id":"單元六及八-10","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":10,"text":"香港電影資料館致力搜集電影資料，藏品主要來自【A】及公眾的捐贈。為提高公眾對香港電影及歷史文化的興趣和認識，資料館定期舉辦【B】、展覽、座談會等活動，並出版專題【C】。","blanks":[{"key":"A","answers":["業界"]},{"key":"B","answers":["電影放映"]},{"key":"C","answers":["書籍"]}],"unordered":[]},{"id":"單元六及八-11","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":11,"text":"香港電影分級制度於1988年立法制定，將電影分為【A】個級別。其中第 IIA級、 IIB級的分級只屬【B】，沒有強制性的法律規限。第III級電影則強制禁止【C】歲以下人士觀看。","blanks":[{"key":"A","answers":["三"]},{"key":"B","answers":["勸喻"]},{"key":"C","answers":["18"]}],"unordered":[]},{"id":"單元六及八-12","part":"第一部分：香港知識","unit":"單元六及八","unitTitle":"香港電影文化、體育及消閒活動","num":12,"text":"近年來，最受香港人歡迎的旅遊目的地為【A】、台北、首爾及曼谷。一般來説，年輕人較多選擇以【B】方式出行。","blanks":[{"key":"A","answers":["東京"]},{"key":"B","answers":["自遊行"]}],"unordered":[]},{"id":"單元七-1","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":1,"text":"香港的貿易政策建基於世界貿易組織（世貿組織）奉行的【A】制度。作為全球最外向型和【B】的經濟體之一，香港致力推動貿易和【C】全球化，並以「【D】」的名義積極參與世貿組織。","blanks":[{"key":"A","answers":["多邊貿易"]},{"key":"B","answers":["開放"]},{"key":"C","answers":["服務"]},{"key":"D","answers":["中國香港"]}],"unordered":[]},{"id":"單元七-2","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":2,"text":"服務業對本港經濟得十分重要。香港最主要的服務行業包括金融及【A】業，其次是公共行政、社會及【B】業，然後是【C】貿易、批發及零售業。","blanks":[{"key":"A","answers":["保險"]},{"key":"B","answers":["個人服務"]},{"key":"C","answers":["進出口"]}],"unordered":[]},{"id":"單元七-3","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":3,"text":"除股票及期貨市場外，本港亦有一個活躍的【A】市場，該市場主要由【B】參與運作及使用，而涉及的產品包括與股票、利率及【C】有關的掉期、遠期及期權合約。香港【D】有限公司附屬公司香港場外結算有限公司已於2013年11月投入運作，為若干類別的場外衍生產品結算提供服務。","blanks":[{"key":"A","answers":["場外交易"]},{"key":"B","answers":["專業機構"]},{"key":"C","answers":["貨幣"]},{"key":"D","answers":["交易及結算所"]}],"unordered":[]},{"id":"單元七-4","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":4,"text":"香港是全球最開放的保險業中心之一。本港大部份保險公司在香港註冊成立，其餘分別在內地或20個海外國家註冊成立，當中以百慕達，【A】及【B】最多。近年，香港的保險業市場每年都有良好的增長。","blanks":[{"key":"A","answers":["英國"]},{"key":"B","answers":["美國"]}],"unordered":[["A","B"]]},{"id":"單元七-5","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":5,"text":"香港是一個【A】港，一般進口或出口貨物均毋須繳付關稅，但有數類在香港使用的貨品，不論是從外地輸入或在本港製造，均須課稅。這些應課稅品包括酒精濃度多於【B】%的酒類、【C】、【D】、飛機燃油、汽油以及輕質【E】。所有輸入、輸出、製造或儲存這些貨品的商戶，均須領有【F】。","blanks":[{"key":"A","answers":["自由"]},{"key":"B","answers":["30"]},{"key":"C","answers":["煙草"]},{"key":"D","answers":["甲醇"]},{"key":"E","answers":["柴油"]},{"key":"F","answers":["牌照"]}],"unordered":[["C","D"]]},{"id":"單元七-6","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":6,"text":"至2023年，香港服務業的就業人數佔總就業人數超過【A】成。","blanks":[{"key":"A","answers":["八"]}],"unordered":[]},{"id":"單元七-7","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":7,"text":"工貿署一直與內地保持緊密磋商，在《內地與香港關於建立【A】的安排》（CEPA）框架下不斷加入更多開放措施，亦積極尋求與香港的貿易伙伴締結【B】協定及促進和保護【C】協定，從而為本港的產品及服務出口以及本港投資者在海外的投資爭取更有利的條件。","blanks":[{"key":"A","answers":["更緊密經貿關係"]},{"key":"B","answers":["自由貿易"]},{"key":"C","answers":["投資"]}],"unordered":[]},{"id":"單元七-8","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":8,"text":"《內地與香港關於建立更緊密經貿關係的安排》（CEPA）是內地及香港【A】份簽訂的自貿協定，於【B】年簽署，並於【C】年1月1日全面實施。","blanks":[{"key":"A","answers":["首"]},{"key":"B","answers":["2003"]},{"key":"C","answers":["2004"]}],"unordered":[]},{"id":"單元七-9","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":9,"text":"博彩稅是向賽馬博彩的投注所得的毛利、【A】收益及合法足球博彩的投注所得的毛利徵收的稅項。本地賽事的賽馬博彩稅按毛利以72.5%至【B】%的累進稅率收稅，越洋轉播海外賽事的賽馬博彩稅則按毛利以劃一【C】%的稅率收稅。","blanks":[{"key":"A","answers":["六合彩"]},{"key":"B","answers":["75"]},{"key":"C","answers":["72.5"]}],"unordered":[]},{"id":"單元七-10","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":10,"text":"六合彩稅率為收益的【A】%；而足球博彩稅率則為毛利的【B】%。","blanks":[{"key":"A","answers":["25"]},{"key":"B","answers":["50"]}],"unordered":[]},{"id":"單元七-11","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":11,"text":"透過發展人民幣【A】、貸款和【B】類產品，香港已成為最大的【C】人民幣融資中心。香港同時成為世界各地企業和金融機構進行人民幣【D】、支付、融資及投資的平台。","blanks":[{"key":"A","answers":["債券"]},{"key":"B","answers":["股票"]},{"key":"C","answers":["離岸"]},{"key":"D","answers":["貿易結算"]}],"unordered":[["A","B"]]},{"id":"單元七-12","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":12,"text":"香港實行【A】稅制，納稅人按三種不同的入息來源的評稅繳付稅款。該三種入息來源分別為營業利潤、【B】及【C】收入。此外，個人可按個人入息課稅辦法，將從各來源所得的總入息【D】課稅。","blanks":[{"key":"A","answers":["分類"]},{"key":"B","answers":["薪酬"]},{"key":"C","answers":["物業租金"]},{"key":"D","answers":["合併"]}],"unordered":[]},{"id":"單元七-13","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":13,"text":"香港的轉口貨品，以【A】、【B】和用具及零件佔據轉口總值首位，其次是【C】、錄音及【D】設備和儀器。","blanks":[{"key":"A","answers":["電動機械"]},{"key":"B","answers":["儀器"]},{"key":"C","answers":["通訊"]},{"key":"D","answers":["音響"]}],"unordered":[]},{"id":"單元七-14","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":14,"text":"香港轉口貿易的主要市場是【A】、【B】、【C】、【D】和越南。","blanks":[{"key":"A","answers":["內地"]},{"key":"B","answers":["美國"]},{"key":"C","answers":["印度"]},{"key":"D","answers":["台灣"]}],"unordered":[["A","B","C","D"]]},{"id":"單元七-15","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":15,"text":"香港出口產品主要項目包括【A】、【B】及銀器，及其他寶石或半寶石製成品；非【C】金屬；以及醫療及【D】產品。主要市場是內地、【E】、美國、英國及瑞士。","blanks":[{"key":"A","answers":["首飾"]},{"key":"B","answers":["金器"]},{"key":"C","answers":["鐵"]},{"key":"D","answers":["藥用"]},{"key":"E","answers":["台灣"]}],"unordered":[["A","B"]]},{"id":"單元七-16","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":16,"text":"中小企業是推動香港經濟發展的一股重要力量，佔全港商業單位總數逾【A】%，為逾【B】萬人提供了就業機會。","blanks":[{"key":"A","answers":["98"]},{"key":"B","answers":["120"]}],"unordered":[]},{"id":"單元七-17","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":17,"text":"香港【A】是依據法例成立的法定機構，專責推動本地貨物和服務貿易出口，在世界各地設有辦事處，致力推廣本港作為【B】環球投資及商業樞紐。","blanks":[{"key":"A","answers":["貿易發展局"]},{"key":"B","answers":["雙向"]}],"unordered":[]},{"id":"單元七-18","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":18,"text":"香港的外匯市場發展成熟，買賣活躍。由於本港沒有【A】，且位於有利的【B】，有助外匯市場的發展。","blanks":[{"key":"A","answers":["外匯管制"]},{"key":"B","answers":["時區"]}],"unordered":[]},{"id":"單元七-19","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":19,"text":"香港在2000年12月開始推行強積金制度，要求符合法例訂明的【A】及僱員【B】性供款，目的是協助市民滾存退休資產。","blanks":[{"key":"A","answers":["僱主"]},{"key":"B","answers":["強制"]}],"unordered":[]},{"id":"單元七-20","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":20,"text":"根據2024年的統計數字，在香港從事【A】、社會、康樂藝術及【B】服務業的人數最多，其次是從事進出口貿易、批發、【C】、住宿及【D】服務業。以上行業的就業人數佔本港超過50%的就業人口。","blanks":[{"key":"A","answers":["公共行政"]},{"key":"B","answers":["個人"]},{"key":"C","answers":["零售"]},{"key":"D","answers":["膳食"]}],"unordered":[]},{"id":"單元七-21","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":21,"text":"在2024年，本港僱員（不包括政府僱員和《最低工資條例》所豁免的實習學員、工作經驗學員和留宿家庭傭工）的每月工資中位數為港幣【A】元。","blanks":[{"key":"A","answers":["20,500"]}],"unordered":[]},{"id":"單元七-22","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":22,"text":"【A】基金是用以支付香港政府在法定公共機構所作出的投資，而這些機構並非屬於政府架構，例如注入香港鐵路有限公司的資本及在房屋委員會作出的資本投資等。基金的收入主要來自政府一般收入帳目的撥款、償還的貸款、投資收入，以及來自投資或貸款的【B】及利息。","blanks":[{"key":"A","answers":["基本投資"]},{"key":"B","answers":["股息"]}],"unordered":[]},{"id":"單元七-23","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":23,"text":"香港的貨幣政策目標是維持貨幣穩定。從【A】年10月開始實行【B】制度，以維持1美元兌【C】港元的固定匯率。","blanks":[{"key":"A","answers":["1983"]},{"key":"B","answers":["聯繫匯率"]},{"key":"C","answers":["7.8"]}],"unordered":[]},{"id":"單元七-24","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":24,"text":"香港政府透過香港金融管理局授權三家商業銀行在香港發行銀行紙幣，這三家銀行分別為香港【A】銀行有限公司、【B】銀行（香港）有限公司和【C】銀行（香港）有限公司。","blanks":[{"key":"A","answers":["上海匯豐"]},{"key":"B","answers":["渣打"]},{"key":"C","answers":["中國"]}],"unordered":[["B","C"]]},{"id":"單元七-25","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":25,"text":"本港的硬幣由香港政府發行，面額為【A】元、5元、2元、1元、5角、2角和1角。1993年政府推出【B】設計硬幣，取代原來的【C】設計系列。","blanks":[{"key":"A","answers":["10"]},{"key":"B","answers":["洋紫荊"]},{"key":"C","answers":["英女皇頭像"]}],"unordered":[]},{"id":"單元七-26","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":26,"text":"「中小企業支援與諮詢中心」（英文簡稱 SUCCESS）的網站為有意創業人士，提供與創業有關的詳盡資料，包括草擬【A】須知、【B】分析、策劃成本/支出的分析等。","blanks":[{"key":"A","answers":["計劃書"]},{"key":"B","answers":["市場"]}],"unordered":[]},{"id":"單元七-27","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":27,"text":"香港股票市場上有多元化的投資產品，包括普通股份、【A】、認股權證、【B】、交易所買賣基金、【C】投資信託基金，以及單位信託及債務證券，供投資者進行買賣。","blanks":[{"key":"A","answers":["期權"]},{"key":"B","answers":["牛熊證"]},{"key":"C","answers":["房地產"]}],"unordered":[["A","B"]]},{"id":"單元七-28","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":28,"text":"香港的《僱傭條例》為符合相關規定的僱員提供多項福利及保障，例如休息日、有薪【A】、有薪【B】、有薪【C】、疾病津貼、生育保障及僱傭保障。","blanks":[{"key":"A","answers":["法定假日"]},{"key":"B","answers":["年假"]},{"key":"C","answers":["侍產假"]}],"unordered":[["A","B","C"]]},{"id":"單元七-29","part":"第一部分：香港知識","unit":"單元七","unitTitle":"香港的主要經濟活動","num":29,"text":"在香港進行涉及【A】、【B】轉讓及股份轉讓的交易時，相關交易文件均須繳納印花稅，否則不具法律效力。","blanks":[{"key":"A","answers":["租約"]},{"key":"B","answers":["不動產"]}],"unordered":[]},{"id":"單元九-1","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":1,"text":"「風水」一詞早見於傳說是【A】朝郭璞所作的《【B】》。「風」和「水」分別代表【C】之氣，集合兩者，便涵蓋了人類所知的所有自然力量。風水術的誕生，其實是應古代【D】社會的生活和【E】所需，因為對古人來說，大自然是不容忽視的主宰力量。","blanks":[{"key":"A","answers":["晉"]},{"key":"B","answers":["葬書"]},{"key":"C","answers":["天地"]},{"key":"D","answers":["農業"]},{"key":"E","answers":["耕作"]}],"unordered":[]},{"id":"單元九-2","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":2,"text":"自古以來，中國建築物的佈局都與風水結下不解之緣。四方的庇護一般以【A】作象徵：前【B】、後【C】、左【D】、右白虎。","blanks":[{"key":"A","answers":["動物"]},{"key":"B","answers":["朱雀"]},{"key":"C","answers":["玄武"]},{"key":"D","answers":["青龍"]}],"unordered":[]},{"id":"單元九-3","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":3,"text":"香港第一條被建造的道路是【A】，早於【B】年開建。","blanks":[{"key":"A","answers":["皇后大道"]},{"key":"B","answers":["1841"]}],"unordered":[]},{"id":"單元九-4","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":4,"text":"香港有些大廈和建築物是有別名的，如西港城叫【A】；太空館叫【B】；土瓜灣市政大廈叫【C】；匯豐銀行大廈叫【D】。","blanks":[{"key":"A","answers":["紅街市"]},{"key":"B","answers":["菠蘿包"]},{"key":"C","answers":["紅蘋果"]},{"key":"D","answers":["機械人"]}],"unordered":[]},{"id":"單元九-5","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":5,"text":"香港有些大廈和建築物是有別名的，如西區警署叫【A】；油麻地水果批發市場叫【B】；佛堂門天后廟叫【C】。","blanks":[{"key":"A","answers":["七號差館"]},{"key":"B","answers":["果欄"]},{"key":"C","answers":["大廟"]}],"unordered":[]},{"id":"單元九-6","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":6,"text":"九龍城福佬村道的得名，是因為此處曾有一條【A】村。","blanks":[{"key":"A","answers":["鶴佬"]}],"unordered":[]},{"id":"單元九-7","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":7,"text":"【A】有四盞香港僅存的1880年代煤氣街燈，是電影裡常見的經典浪漫場景拍攝場地。","blanks":[{"key":"A","answers":["都爹利街"]}],"unordered":[]},{"id":"單元九-8","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":8,"text":"香港有不少富豪都不惜以高價去競投自己喜歡的車輛登記號碼（俗稱車牌）。香港最貴的車牌是 “【A】”，於2021年以【B】萬港元成交。","blanks":[{"key":"A","answers":["W"]},{"key":"B","answers":["2,600"]}],"unordered":[]},{"id":"單元九-9","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":9,"text":"香港藝人【A】以25萬港元在自訂車牌公開競投中，投得與其英文名相同的車牌。","blanks":[{"key":"A","answers":["郭富城"]}],"unordered":[]},{"id":"單元九-10","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":10,"text":"1號車牌是【A】坐駕的車牌。","blanks":[{"key":"A","answers":["警務處處長"]}],"unordered":[]},{"id":"單元九-11","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":11,"text":"大帽山昔日稱為【A】；鳳凰山昔日稱為【B】；太平山昔日稱為【C】或【D】。","blanks":[{"key":"A","answers":["大霧山"]},{"key":"B","answers":["爛頭山"]},{"key":"C","answers":["硬頭山"]},{"key":"D","answers":["扯旗山"]}],"unordered":[["C","D"]]},{"id":"單元九-12","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":12,"text":"果洲群島被稱為【A】；長洲昔日稱為【B】；南丫島古稱為【C】。","blanks":[{"key":"A","answers":["九柱群島"]},{"key":"B","answers":["啞鈴島"]},{"key":"C","answers":["博寮洲","舶寮洲"]}],"unordered":[]},{"id":"單元九-13","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":13,"text":"21世紀初，香港開始出現大規模新【A】區和不少新建街道，街道命名由先擬定【B】文名為主漸漸變成先擬定【C】文為主。二十世紀早期，華人的地位開始變得重要，部份街道（如李陞街）取名於華人【D】。","blanks":[{"key":"A","answers":["填海"]},{"key":"B","answers":["英"]},{"key":"C","answers":["中"]},{"key":"D","answers":["富商"]}],"unordered":[]},{"id":"單元九-14","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":14,"text":"戰後的香港發展愈來愈快，有更多新街道成立。此時，街道的命名已經放棄用政府【A】的名字。街道命名變得多元化，包括: 以【B】、【C】、【D】和【E】文雅字詞命名。","blanks":[{"key":"A","answers":["官員"]},{"key":"B","answers":["植物"]},{"key":"C","answers":["建築物"]},{"key":"D","answers":["舊村落"]},{"key":"E","answers":["吉祥"]}],"unordered":[["B","C"]]},{"id":"單元九-15","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":15,"text":"列拿士地台當初命名是記一名叫【A】的人，但當時負責的師爺由於是中國人關係，習慣了由【B】書寫，最後將整個街道名的英文拼寫【C】了，使香港保留了這個十分特別的街道名。","blanks":[{"key":"A","answers":["亞歷山大"]},{"key":"B","answers":["右向左"]},{"key":"C","answers":["倒轉"]}],"unordered":[]},{"id":"單元九-16","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":16,"text":"緬甸台是錯誤的街道中文譯名，而且與東南亞國家緬甸是沒有關係的。其實緬甸台的英文名字源於該處曾有一批居民來自【A】城市 Minden，所以將該路段以Minden 來命名。Minden正式中文譯名為【B】，位於緬甸台側的【C】也可以證實這點。","blanks":[{"key":"A","answers":["德國"]},{"key":"B","answers":["棉登"]},{"key":"C","answers":["棉登徑"]}],"unordered":[]},{"id":"單元九-17","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":17,"text":"眾坊街英文名字是解作【A】的意思，然而命名的官員將 Square 解作【B】，所以幾十年前眾坊街被叫作「【C】街」。","blanks":[{"key":"A","answers":["公共廣場"]},{"key":"B","answers":["四方"]},{"key":"C","answers":["公眾四方"]}],"unordered":[]},{"id":"單元九-18","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":18,"text":"以「街市街」命名的街道出現於香港多個地區，包括；【A】、【B】、【C】、【D】及【E】。","blanks":[{"key":"A","answers":["油麻地"]},{"key":"B","answers":["沙頭角"]},{"key":"C","answers":["荃灣"]},{"key":"D","answers":["上環"]},{"key":"E","answers":["大澳"]}],"unordered":[["A","B","C","D","E"]]},{"id":"單元九-19","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":19,"text":"上環【A】及干諾道西一帶又被稱海味街，是香港最大的蔘茸海味等乾貨集散地。","blanks":[{"key":"A","answers":["德輔道西"]}],"unordered":[]},{"id":"單元九-20","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":20,"text":"砵典乍街建於1850年代，並以香港第一任【A】命名，又被稱為【B】。","blanks":[{"key":"A","answers":["總督"]},{"key":"B","answers":["石板街"]}],"unordered":[]},{"id":"單元九-21","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":21,"text":"青山公路元朗段貫穿元朗市中心，故又被稱為元朗【A】。","blanks":[{"key":"A","answers":["大馬路"]}],"unordered":[]},{"id":"單元九-22","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":22,"text":"香港最高的住宅大樓是位於【A】的天璽I 及 II。","blanks":[{"key":"A","answers":["西九龍"]}],"unordered":[]},{"id":"單元九-23","part":"第一部分：香港知識","unit":"單元九","unitTitle":"趣聞軼事及掌故","num":23,"text":"環球貿易廣場位於西九龍，樓高【A】米，是香港最高建築物。聳立於中區的【B】二期，樓高約415.8米，曾經是香港最高建築物。","blanks":[{"key":"A","answers":["484"]},{"key":"B","answers":["國際金融中心"]}],"unordered":[]},{"id":"單元十-1","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":1,"text":"粵港澳大灣區包括香港、澳門兩個特別行政區，以及廣東省廣州、【A】、珠海、【B】、惠州、【C】、中山、【D】、肇慶九市。","blanks":[{"key":"A","answers":["深圳"]},{"key":"B","answers":["佛山"]},{"key":"C","answers":["東莞"]},{"key":"D","answers":["江門"]}],"unordered":[["A","B","C","D"]]},{"id":"單元十-2","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":2,"text":"粵港澳大灣區地處沿海開放前沿，以泛【A】區域為廣闊發展腹地，在「【B】」建設中具有重要地位。","blanks":[{"key":"A","answers":["珠三角"]},{"key":"B","answers":["一帶一路"]}],"unordered":[]},{"id":"單元十-3","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":3,"text":"於【A】年12月3日公布的《粵港澳大灣區文化和旅遊發展規劃》，為大灣區的整體文化和旅遊發展提供指導性方向，引領大灣區成為中外文化的【B】及世界級旅遊目的地，","blanks":[{"key":"A","answers":["2020"]},{"key":"B","answers":["交流樞紐"]}],"unordered":[]},{"id":"單元十-4","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":4,"text":"香港旅遊業近年正朝產品【A】及【B】方向穩健發展，政府亦一直致力對外推廣「【C】」旅遊產品和加強香港作為亞洲區首選旅遊目的地的形象。","blanks":[{"key":"A","answers":["多元化"]},{"key":"B","answers":["高增值"]},{"key":"C","answers":["一程多站"]}],"unordered":[]},{"id":"單元十-5","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":5,"text":"港珠澳大橋是全球最長【A】組合跨海通道，大橋落成通車後，大大地改善了粵港澳大灣區城市之間的交通連接，將珠三角西部納入香港【B】小時車程可達範圍內。","blanks":[{"key":"A","answers":["橋隧"]},{"key":"B","answers":["三"]}],"unordered":[]},{"id":"單元十-6","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":6,"text":"廣深港高速鐵路只需約【A】分鐘便可由香港的西九龍站直達深圳福田、約18 分鐘可直達【B】站、約46 分鐘可直達【C】站，並可轉乘珠三角【D】快速軌道到達大灣區其他城巿。","blanks":[{"key":"A","answers":["14"]},{"key":"B","answers":["深圳北"]},{"key":"C","answers":["廣州南"]},{"key":"D","answers":["城際"]}],"unordered":[]},{"id":"單元十-7","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":7,"text":"20 世紀初，大量海外華工衣錦還鄉買地建屋，開平出現了許多規模宏偉的碉樓。碉樓並非傳統中式建築，而是將【A】、古羅馬、【B】、【C】與中式建築風格共冶一爐，而且結構堅固，具防澇防匪功能，完美糅合視覺美學與實用價值。","blanks":[{"key":"A","answers":["古希臘"]},{"key":"B","answers":["拜占庭"]},{"key":"C","answers":["巴洛克"]}],"unordered":[["A","B","C"]]},{"id":"單元十-8","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":8,"text":"晚清年間，廣州【A】在西關（今【B】區）一帶興建了許多華美大宅，統稱「西關大屋」。","blanks":[{"key":"A","answers":["富商"]},{"key":"B","answers":["茘灣"]}],"unordered":[]},{"id":"單元十-9","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":9,"text":"【A】是黃飛鴻出生的地方，武術迷可在此城市踏足還原現實的【B】及【C】等。","blanks":[{"key":"A","answers":["佛山"]},{"key":"B","answers":["寶芝林"]},{"key":"C","answers":["百草堂"]}],"unordered":[["B","C"]]},{"id":"單元十-10","part":"第二部分：中國知識","unit":"單元十","unitTitle":"粵港澳大灣區","num":10,"text":"鼎湖山為【A】四大名山之首，更是中國首個國家級自然保護區，區內林木繁茂，終年常綠。鼎湖山亦是【B】聖地，園區內建於明代的【C】是廣東四大名剎之一，五層殿宇內大小殿堂上百間，收藏不少歷史文物，包括難得一見的千人鑊、大銅鐘及【D】御賜牌匾等。","blanks":[{"key":"A","answers":["嶺南"]},{"key":"B","answers":["佛教"]},{"key":"C","answers":["慶雲寺"]},{"key":"D","answers":["慈禧"]}],"unordered":[]},{"id":"單元十一-1","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":1,"text":"在中國漫長的君王主義年代，【A】朝是最後的一個王朝，統治了中國達【B】年。","blanks":[{"key":"A","answers":["清"]},{"key":"B","answers":["268"]}],"unordered":[]},{"id":"單元十一-2","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":2,"text":"1894年爆發的【A】戰爭是中國近代史上一個轉折點，因為經此一役，滿清政府便一蹶不振。1895年中國戰敗給日本後簽訂了《【B】條約》，條約內容包括中國割讓【C】半島（後由中國附加三千萬兩白銀贖回）、割讓【D】島及【E】列島給日本。","blanks":[{"key":"A","answers":["甲午"]},{"key":"B","answers":["馬關"]},{"key":"C","answers":["遼東"]},{"key":"D","answers":["台灣"]},{"key":"E","answers":["澎湖"]}],"unordered":[]},{"id":"單元十一-3","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":3,"text":"在八國聯軍之役中，中國戰敗，聯軍佔領北京，被迫簽署了《【A】條約》，內容包括：賠款白銀【B】億五千萬両白銀；將東交民巷劃為「使館區」由使館管理，禁止中國人居住，成為國中之國；允許外國軍隊駐扎北京和【C】個重要地區等。","blanks":[{"key":"A","answers":["辛丑"]},{"key":"B","answers":["四"]},{"key":"C","answers":["12"]}],"unordered":[]},{"id":"單元十一-4","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":4,"text":"1911年10月10日晚，以孫中山為代表的革命派發動了【A】起義，並迅速席捲了大半個中國。1912年1月1日，孫中山在【B】宣誓就任臨時【C】，中國政治制度由封建主義走向【D】。","blanks":[{"key":"A","answers":["武昌"]},{"key":"B","answers":["南京"]},{"key":"C","answers":["大總統"]},{"key":"D","answers":["共和"]}],"unordered":[]},{"id":"單元十一-5","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":5,"text":"1915年底，【A】妄想復辟帝制，以1916 年為 「【B】元年」，但做了【C】天皇帝後便死亡，中國開始進入【D】分裂期。","blanks":[{"key":"A","answers":["袁世凱"]},{"key":"B","answers":["洪憲"]},{"key":"C","answers":["80"]},{"key":"D","answers":["南北"]}],"unordered":[]},{"id":"單元十一-6","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":6,"text":"中國共產黨於【A】年7月成立。","blanks":[{"key":"A","answers":["1921"]}],"unordered":[]},{"id":"單元十一-7","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":7,"text":"1931年9月18日深夜，【A】軍炸毁中國東北瀋陽近南滿一段鐵路，並反稱是中國軍隊破壞，佔領了瀋陽城，史稱「【B】」。","blanks":[{"key":"A","answers":["日本"]},{"key":"B","answers":["九一八事變"]}],"unordered":[]},{"id":"單元十一-8","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":8,"text":"1936年，張學良、楊虎城為迫蔣介石停止內戰聯共抗日，於是在1936年12月12日，採取一次軍事行動，史稱為「【A】事變」。","blanks":[{"key":"A","answers":["西安"]}],"unordered":[]},{"id":"單元十一-9","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":9,"text":"自1931年日本開始侵華戰爭起計，中國陷入漫長的【A】年抗日之戰。","blanks":[{"key":"A","answers":["14"]}],"unordered":[]},{"id":"單元十一-10","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":10,"text":"1945年日本戰敗，中國最後雖獲得勝利，卻旋即陷入【A】。","blanks":[{"key":"A","answers":["國共內戰"]}],"unordered":[]},{"id":"單元十一-11","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":11,"text":"1945年，《聯合國憲章》正式生效，聯合國正式成立。中國是聯合國的其中一個【A】國，又是【B】五大常任理事國之一，突顯出中國已躋身世界最大國際組織。","blanks":[{"key":"A","answers":["創始"]},{"key":"B","answers":["安全理事會"]}],"unordered":[]},{"id":"單元十一-12","part":"第二部分：中國知識","unit":"單元十一","unitTitle":"中國近代史","num":12,"text":"【A】年，中華人民共和國正式建立，標誌著中國進入【B】主義時代。","blanks":[{"key":"A","answers":["1949"]},{"key":"B","answers":["社會"]}],"unordered":[]},{"id":"單元十二-1","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":1,"text":"中國面積約【A】萬平方公里，居世界第【B】位。","blanks":[{"key":"A","answers":["960"]},{"key":"B","answers":["3"]}],"unordered":[]},{"id":"單元十二-2","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":2,"text":"根據中華人民共和國國家統計局，截至2024年年末，中國大陸人口總數超過【A】億人，居世界首位。","blanks":[{"key":"A","answers":["14"]}],"unordered":[]},{"id":"單元十二-3","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":3,"text":"中國有【A】個省，【B】個直轄巿，【C】個自治區和【D】個特別行政區。","blanks":[{"key":"A","answers":["23"]},{"key":"B","answers":["4"]},{"key":"C","answers":["5"]},{"key":"D","answers":["2"]}],"unordered":[]},{"id":"單元十二-4","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":4,"text":"中國的四個直轄巿包括：【A】、【B】、【C】和【D】。","blanks":[{"key":"A","answers":["北京"]},{"key":"B","answers":["上海"]},{"key":"C","answers":["重慶"]},{"key":"D","answers":["天津"]}],"unordered":[["A","B","C","D"]]},{"id":"單元十二-5","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":5,"text":"中國的五個自治區包括：內【A】自治區、廣西【B】族自治區、寧夏【C】族自治區、新疆【D】自治區和【E】自治區。","blanks":[{"key":"A","answers":["蒙古"]},{"key":"B","answers":["壯"]},{"key":"C","answers":["回"]},{"key":"D","answers":["維吾爾"]},{"key":"E","answers":["西藏"]}],"unordered":[]},{"id":"單元十二-6","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":6,"text":"中國有綿長的海岸線，東部和南部瀕臨著太平洋的三個邊緣海，自北向南有【A】海、【B】海和【C】海。","blanks":[{"key":"A","answers":["黃"]},{"key":"B","answers":["東"]},{"key":"C","answers":["南"]}],"unordered":[]},{"id":"單元十二-7","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":7,"text":"【A】高原位於中國【B】部，平均海拔4,000米以上，是世界上地勢最高的大高原，有「【C】」之稱。","blanks":[{"key":"A","answers":["青藏"]},{"key":"B","answers":["西南"]},{"key":"C","answers":["世界屋脊"]}],"unordered":[]},{"id":"單元十二-8","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":8,"text":"中國【A】有偏北風（從大陸吹向海洋），【B】有偏南風（從海洋吹向陸地），因此中國的季風氣候稱為大陸性季風氣候。","blanks":[{"key":"A","answers":["冬天"]},{"key":"B","answers":["夏天"]}],"unordered":[]},{"id":"單元十二-9","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":9,"text":"中國陸上疆界長約【A】萬公里，與【B】個國家相鄰接，與【C】個國家海域相鄰或相向。","blanks":[{"key":"A","answers":["2.2"]},{"key":"B","answers":["14"]},{"key":"C","answers":["8"]}],"unordered":[]},{"id":"單元十二-10","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":10,"text":"中國四大盆地包括：【A】盆地、【B】盆地、【C】盆地和【D】盆地。","blanks":[{"key":"A","answers":["四川"]},{"key":"B","answers":["柴達木"]},{"key":"C","answers":["塔里木"]},{"key":"D","answers":["準噶爾"]}],"unordered":[["A","B","C","D"]]},{"id":"單元十二-11","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":11,"text":"中國華北平原地勢平坦，一望無際，是中國開發歷史悠久的【A】區。","blanks":[{"key":"A","answers":["農業"]}],"unordered":[]},{"id":"單元十二-12","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":12,"text":"長江中下游平原沿長江兩岸伸展，湖泊眾多，河網密佈，有「【A】」的美譽","blanks":[{"key":"A","answers":["魚米之鄉"]}],"unordered":[]},{"id":"單元十二-13","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":13,"text":"中國歷史悠久的河流包括：【A】、【B】、【C】和【D】。","blanks":[{"key":"A","answers":["長江"]},{"key":"B","answers":["珠江"]},{"key":"C","answers":["黃河"]},{"key":"D","answers":["淮河"]}],"unordered":[["A","B","C","D"]]},{"id":"單元十二-14","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":14,"text":"中國是個多湖泊的國家，長江中下游地區，有著最大的淡水湖群，如【A】和【B】；在青藏高原的湖泊，多為內陸鹹水湖，如【C】和納木錯。","blanks":[{"key":"A","answers":["洞庭湖"]},{"key":"B","answers":["太湖"]},{"key":"C","answers":["青海湖"]}],"unordered":[["A","B"]]},{"id":"單元十二-15","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":15,"text":"中華民族的組成為漢族和【A】個少數民族，共56個民族。其中第一大族的漢族，佔總人口約【B】%。","blanks":[{"key":"A","answers":["55"]},{"key":"B","answers":["90"]}],"unordered":[]},{"id":"單元十二-16","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":16,"text":"藏族聚居在西藏自治區以及【A】、甘肅、雲南等省，以藏文為語言文字，字體分為楷體和【B】體兩種，適用於所有藏族地區。藏族服飾的特點是長袖、寬腰、大襟，襯衣配搭不同顏色與花紋，在腰間束上一塊七彩繽紛的【C】。藏族人傳統上獻「【D】」，代表吉祥，並視作最珍貴的禮物。","blanks":[{"key":"A","answers":["青海"]},{"key":"B","answers":["草"]},{"key":"C","answers":["圍裙"]},{"key":"D","answers":["哈達"]}],"unordered":[]},{"id":"單元十二-17","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":17,"text":"「維吾爾」是維吾爾族的自居，代表「【A】」的意思，是一個多源民族，主要聚居在【B】維吾爾自治區、和田一帶等地區，其餘大部分散居在【C】等地。","blanks":[{"key":"A","answers":["聯合"]},{"key":"B","answers":["新疆"]},{"key":"C","answers":["烏魯木齊"]}],"unordered":[]},{"id":"單元十二-18","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":18,"text":"「蒙古」其意為「【A】」。蒙古族主要聚居在中國內蒙古自治區，亦有少數聚居在【B】、吉林、黑龍江、甘肅、北京等北方地區。蒙古族人民於【C】生活，世代以【D】為生。","blanks":[{"key":"A","answers":["永恆之火"]},{"key":"B","answers":["遼寧"]},{"key":"C","answers":["草原"]},{"key":"D","answers":["畜牧"]}],"unordered":[]},{"id":"單元十二-19","part":"第二部分：中國知識","unit":"單元十二","unitTitle":"中國的政治地理","num":19,"text":"中國是世界上擁有世界遺產類別最齊全的國家之一，其中首都北京擁有【A】項世界遺產，包括北京【B】線、周口店【C】遺址、明清皇陵、長城、故宮、頤和園、天壇和【D】。","blanks":[{"key":"A","answers":["8"]},{"key":"B","answers":["中軸"]},{"key":"C","answers":["北京人"]},{"key":"D","answers":["大運河"]}],"unordered":[]},{"id":"單元十三-1","part":"第二部分：中國知識","unit":"單元十三","unitTitle":"中國的風物特產","num":1,"text":"景泰藍為國家級非物質文化遺產之一，也稱為中國傳統工藝「【A】」之一，其製作工序繁複，製作時需多次【B】及【C】，同時需懂得控制琺瑯鍛燒的【D】，才能達到光澤細緻的效果。","blanks":[{"key":"A","answers":["三絕"]},{"key":"B","answers":["點藍"]},{"key":"C","answers":["燒藍"]},{"key":"D","answers":["溫度"]}],"unordered":[]},{"id":"單元十三-2","part":"第二部分：中國知識","unit":"單元十三","unitTitle":"中國的風物特產","num":2,"text":"上海彩燈是其中一個國家級非物質文化遺產。上海彩燈的獨特之處是其製作的元素融合現代與【A】的特色。同時，燈會是上海民間盛事，其中【B】燈會是每年元宵節在上海市舉辦的年度盛事。","blanks":[{"key":"A","answers":["古代"]},{"key":"B","answers":["豫園"]}],"unordered":[]},{"id":"單元十三-3","part":"第二部分：中國知識","unit":"單元十三","unitTitle":"中國的風物特產","num":3,"text":"蜀綉產於【A】市，屬中國四大名繡之一。","blanks":[{"key":"A","answers":["成都"]}],"unordered":[]},{"id":"單元十三-4","part":"第二部分：中國知識","unit":"單元十三","unitTitle":"中國的風物特產","num":4,"text":"蘇繡以【A】為名，其層次分明的針法，使刺繡內的圖案物象逼真。","blanks":[{"key":"A","answers":["細緻"]}],"unordered":[]},{"id":"單元十三-5","part":"第二部分：中國知識","unit":"單元十三","unitTitle":"中國的風物特產","num":5,"text":"浙江出產的毛筆，譽為「【A】」。浙江湖筆主要分為四類，分別是【B】毫、【C】毫、【D】毫、兼毫。","blanks":[{"key":"A","answers":["筆中之冠"]},{"key":"B","answers":["羊"]},{"key":"C","answers":["狼"]},{"key":"D","answers":["紫"]}],"unordered":[["B","C","D"]]},{"id":"單元十三-6","part":"第二部分：中國知識","unit":"單元十三","unitTitle":"中國的風物特產","num":6,"text":"楊柳青年畫是中國天津著名的民間木版年畫，其獨特之處為製作過程融合了【A】和【B】，採用了不同朝代的繪畫、木板技術。","blanks":[{"key":"A","answers":["木刻套印"]},{"key":"B","answers":["手工彩繪"]}],"unordered":[["A","B"]]},{"id":"單元十三-7","part":"第二部分：中國知識","unit":"單元十三","unitTitle":"中國的風物特產","num":7,"text":"青田石產於【A】省清田，為中國三大佳石之一。","blanks":[{"key":"A","answers":["浙江"]}],"unordered":[]},{"id":"單元十三-8","part":"第二部分：中國知識","unit":"單元十三","unitTitle":"中國的風物特產","num":8,"text":"【A】雞血石顏色如雞血般鮮艷，是含有鮮紅色辰砂的【B】，屬於葉蠟石種類之一，其質地硬度不高，適宜製作【C】。","blanks":[{"key":"A","answers":["昌化"]},{"key":"B","answers":["凍石"]},{"key":"C","answers":["印章"]}],"unordered":[]},{"id":"單元十四-1","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":1,"text":"在北方，【A】吃餃子是最典型的飲食習俗，寓意【B】，期望萬象更新，希望祈福與得到庇佑。","blanks":[{"key":"A","answers":["團年飯"]},{"key":"B","answers":["送舊迎新"]}],"unordered":[]},{"id":"單元十四-2","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":2,"text":"年糕為中國【A】族慶賀春節的應節佳品，有諸事順遂、步步高陞的美妙象徵。年糕是用【B】或米粉蒸成的糕，可以分為【C】、黃、白三色，寓意「【D】」，期盼著人們仕途得意和生活質素一年比一年提升。","blanks":[{"key":"A","answers":["漢"]},{"key":"B","answers":["糯米"]},{"key":"C","answers":["紅"]},{"key":"D","answers":["年年高"]}],"unordered":[]},{"id":"單元十四-3","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":3,"text":"湯圓多在正月十五【A】節時食用，寓意像月圓一樣團團圓圓，家人聚首一堂、團圓和睦，是對生活的美好願望。湯圓主要材料是【B】，內餡可【C】、【D】或【E】。","blanks":[{"key":"A","answers":["元宵"]},{"key":"B","answers":["糯米"]},{"key":"C","answers":["甜"]},{"key":"D","answers":["鹹"]},{"key":"E","answers":["素"]}],"unordered":[["C","D","E"]]},{"id":"單元十四-4","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":4,"text":"粽子為農曆五月初五【A】節時的食品，現已流傳到【B】、【C】及東南亞等地。","blanks":[{"key":"A","answers":["端午"]},{"key":"B","answers":["日本"]},{"key":"C","answers":["朝鮮"]}],"unordered":[["B","C"]]},{"id":"單元十四-5","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":5,"text":"月餅為中國農曆八月十五【A】節的傳統食品。人們把月餅與【B】連繫一起，寓意團團圓圓，寄託思鄉情懷。","blanks":[{"key":"A","answers":["中秋"]},{"key":"B","answers":["賞月"]}],"unordered":[]},{"id":"單元十四-6","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":6,"text":"農曆年三十晚團年飯，「【A】」是家家戶戶傳統都會有的一道菜，取其年年有餘的意思，是中國最具吉祥寓意的菜式之一。","blanks":[{"key":"A","answers":["全魚"]}],"unordered":[]},{"id":"單元十四-7","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":7,"text":"中國八大菜系主要包括：【A】、湘、【B】、閩、【C】、浙、徽和【D】。","blanks":[{"key":"A","answers":["川"]},{"key":"B","answers":["粵"]},{"key":"C","answers":["蘇"]},{"key":"D","answers":["魯"]}],"unordered":[["A","B","C","D"]]},{"id":"單元十四-8","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":8,"text":"川菜又稱【A】菜，以成都、【B】兩地菜肴為代表，主要特點以【C】、【D】、味廣著稱。","blanks":[{"key":"A","answers":["蜀"]},{"key":"B","answers":["重慶"]},{"key":"C","answers":["麻辣"]},{"key":"D","answers":["魚香"]}],"unordered":[["C","D"]]},{"id":"單元十四-9","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":9,"text":"【A】菜又稱廣東菜，由廣州、【B】、東江等地方菜發展而成，其特點是選料廣博雜奇，原料新鮮，講究鮮嫩爽滑，且【C】強。","blanks":[{"key":"A","answers":["粵"]},{"key":"B","answers":["潮州"]},{"key":"C","answers":["季節性"]}],"unordered":[]},{"id":"單元十四-10","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":10,"text":"化子雞、糖醋鱖魚、鹽水鴨、清燉蟹粉獅子頭和清蒸鰣魚等都是【A】菜的經典名菜。","blanks":[{"key":"A","answers":["蘇"]}],"unordered":[]},{"id":"單元十四-11","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":11,"text":"湘菜是【A】地方菜的代表，【B】風味濃。湘菜製作精細、品種繁多、用料廣泛、口味多變，味道上偏向【C】和鮮。","blanks":[{"key":"A","answers":["湖南"]},{"key":"B","answers":["山鄉"]},{"key":"C","answers":["辣"]}],"unordered":[]},{"id":"單元十四-12","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":12,"text":"炸醬麵是中國傳統特色的麵食之一。炸醬麵材料講究，醬料主要有【A】和【B】，醬香味濃。","blanks":[{"key":"A","answers":["豬肉"]},{"key":"B","answers":["蔬菜"]}],"unordered":[["A","B"]]},{"id":"單元十四-13","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":13,"text":"老北京涮羊肉是傳統火鍋菜式，選用【A】炭火，風味與別不同，選料精湛。吃涮肉會選用【B】小尾羊，並以選用精湛【C】聞名，輔料有葷有素。傳統老北京火鍋用清水湯底，更會放入【D】、薑、蒜等調味料。","blanks":[{"key":"A","answers":["銅鍋"]},{"key":"B","answers":["內蒙古"]},{"key":"C","answers":["蘸料"]},{"key":"D","answers":["蔥"]}],"unordered":[]},{"id":"單元十四-14","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":14,"text":"北京烤鴨是著名菜式，使用【A】炭火烤制，肉質肥而不膩。北京烤鴨分為兩大流派，分別是以【B】的掛爐烤鴨和【C】的燜爐烤鴨為代表。","blanks":[{"key":"A","answers":["果木"]},{"key":"B","answers":["全聚德"]},{"key":"C","answers":["便宜坊"]}],"unordered":[]},{"id":"單元十四-15","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":15,"text":"佛跳牆是【A】省的傳統名菜，以【B】、魚翅、乾貝、瑤柱、魚肚、魚唇、海參、雞和冬菇等煨製而成，【C】鮮美，營養豐富且滋潤補身。","blanks":[{"key":"A","answers":["福建"]},{"key":"B","answers":["鮑魚"]},{"key":"C","answers":["湯汁"]}],"unordered":[]},{"id":"單元十四-16","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":16,"text":"【A】是指加入適量補藥烹製而成的菜餚，如人參排骨湯、百合蓮子粥等。","blanks":[{"key":"A","answers":["藥膳"]}],"unordered":[]},{"id":"單元十四-17","part":"第二部分：中國知識","unit":"單元十四","unitTitle":"中國的食物","num":17,"text":"【A】是指一些大官僚、名士們府上所製菜餚，如孔府菜、東坡肉等。","blanks":[{"key":"A","answers":["官府菜"]}],"unordered":[]}];</script>
+<script>
+(function(){
+"use strict";
+
+/* ============================ 題庫 ============================ */
+var Q = window.QDATA;
+var BY_ID = {};
+var UNITS = [];
+var UNIT_BY_KEY = {};
+var TOTAL_BLANKS = 0;
+
+Q.forEach(function(q){
+  BY_ID[q.id] = q;
+  TOTAL_BLANKS += q.blanks.length;
+  var u = UNIT_BY_KEY[q.unit];
+  if(!u){
+    u = {key:q.unit, title:q.unitTitle, part:q.part, qs:[], blanks:0};
+    UNIT_BY_KEY[q.unit] = u; UNITS.push(u);
+  }
+  u.qs.push(q); u.blanks += q.blanks.length;
+});
+var PARTS = [];
+UNITS.forEach(function(u){ if(PARTS.indexOf(u.part) < 0) PARTS.push(u.part); });
+
+/* ============================ 進度紀錄 ============================ */
+var LS = "tgb-progress-v1";
+var P = loadLocal();
+
+function blankRec(id){
+  var r = P.blanks[id];
+  if(!r){ r = {c:0,w:0,l:null,t:0}; P.blanks[id] = r; }
+  return r;
+}
+function loadLocal(){
+  try{
+    var raw = JSON.parse(localStorage.getItem(LS));
+    if(raw && raw.blanks) return normalizeState(raw);
+  }catch(e){}
+  return {v:1, updatedAt:0, blanks:{}, questions:{}, sessions:[]};
+}
+function normalizeState(s){
+  return {v:1, updatedAt:s.updatedAt||0, blanks:s.blanks||{}, questions:s.questions||{}, sessions:s.sessions||[]};
+}
+function save(){
+  P.updatedAt = Date.now();
+  try{ localStorage.setItem(LS, JSON.stringify(P)); }catch(e){}
+}
+
+/* 全部資料只存在這台電腦的瀏覽器；可用「匯出進度」備份成 JSON 檔。 */
+function setSync(on, text){
+  document.getElementById("syncdot").className = "dot" + (on ? " on" : "");
+  document.getElementById("synctext").textContent = text;
+}
+function storageOK(){
+  try{ localStorage.setItem("__t", "1"); localStorage.removeItem("__t"); return true; }catch(e){ return false; }
+}
+function exportProgress(){
+  var name = "乙部通關-進度-" + new Date().toISOString().slice(0, 10) + ".json";
+  var blob = new Blob([JSON.stringify(P)], {type:"application/json"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 100);
+}
+function importProgress(file, done){
+  var r = new FileReader();
+  r.onload = function(){
+    try{
+      var d = JSON.parse(r.result);
+      if(!d || !d.blanks) throw new Error("格式不符");
+      P = normalizeState(d); P.updatedAt = Date.now();
+      try{ localStorage.setItem(LS, JSON.stringify(P)); }catch(e){}
+      done(null);
+    }catch(e){ done("檔案讀不到進度資料，請選擇之前匯出的 JSON 檔。"); }
+  };
+  r.onerror = function(){ done("檔案讀取失敗。"); };
+  r.readAsText(file);
+}
+
+/* ============================ 答案比對 ============================ */
+function norm(s){
+  s = String(s == null ? "" : s);
+  s = s.replace(/[！-～]/g, function(c){ return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); });
+  s = s.replace(/\s+/g, "");
+  s = s.replace(/[,.;:!?'"`~+\-_/\\()\[\]<>*=|]/g, "");
+  s = s.replace(/[，。、；：！？「」『』（）【】《》〈〉～－—…·]/g, "");
+  return s.toUpperCase();
+}
+function matches(blank, val){
+  var n = norm(val);
+  if(!n) return false;
+  for(var i=0;i<blank.answers.length;i++){ if(norm(blank.answers[i]) === n) return true; }
+  return false;
+}
+/* 逐格批改，並處理「答案無需依次序」的題目 */
+function grade(q, ans){
+  var res = {}, i, j;
+  var groups = q.unordered || [];
+  var grouped = {};
+  groups.forEach(function(g){ g.forEach(function(k){ grouped[k] = true; }); });
+
+  q.blanks.forEach(function(b){
+    if(!grouped[b.key]) res[b.key] = {ok: matches(b, ans[b.key]), exp: b.answers};
+  });
+
+  groups.forEach(function(g){
+    var blanks = g.map(function(k){ return q.blanks.filter(function(b){ return b.key === k; })[0]; });
+    var used = blanks.map(function(){ return false; });
+    var hit = g.map(function(){ return false; });
+    for(i=0;i<g.length;i++){
+      var val = ans[g[i]];
+      if(!norm(val)) continue;
+      for(j=0;j<blanks.length;j++){
+        if(!used[j] && blanks[j] && matches(blanks[j], val)){ used[j] = true; hit[i] = true; break; }
+      }
+    }
+    for(i=0;i<g.length;i++){
+      res[g[i]] = {ok: hit[i], exp: blanks[i] ? blanks[i].answers : [], group: g};
+    }
+  });
+  return res;
+}
+function record(q, res){
+  var t = Date.now(), ok = 0, total = 0;
+  q.blanks.forEach(function(b){
+    var r = res[b.key], rec = blankRec(q.id + ":" + b.key);
+    if(r && r.ok){ rec.c++; ok++; } else { rec.w++; }
+    rec.l = (r && r.ok) ? 1 : 0; rec.t = t; total++;
+  });
+  var qr = P.questions[q.id] || (P.questions[q.id] = {n:0, t:0, lastOk:0});
+  qr.n++; qr.t = t; qr.lastOk = (ok === total) ? 1 : 0;
+  save();
+  return {ok:ok, total:total};
+}
+
+/* ============================ 統計輔助 ============================ */
+function unitStat(u){
+  var blanks = 0, att = 0, c = 0, w = 0;
+  u.qs.forEach(function(q){
+    q.blanks.forEach(function(b){
+      blanks++;
+      var r = P.blanks[q.id + ":" + b.key];
+      if(r && (r.c + r.w) > 0){ att++; c += r.c; w += r.w; }
+    });
+  });
+  return {blanks:blanks, att:att, c:c, w:w, acc:(c+w) ? c/(c+w) : null, cov: blanks ? att/blanks : 0};
+}
+function overall(){
+  var att = 0, c = 0, w = 0;
+  Object.keys(P.blanks).forEach(function(k){
+    var r = P.blanks[k];
+    if(r.c + r.w > 0){ att++; c += r.c; w += r.w; }
+  });
+  return {att:att, c:c, w:w, acc:(c+w) ? c/(c+w) : null};
+}
+function wrongQueue(){
+  return Q.filter(function(q){
+    for(var i=0;i<q.blanks.length;i++){
+      var r = P.blanks[q.id + ":" + q.blanks[i].key];
+      if(r && r.l === 0) return true;
+    }
+    return false;
+  });
+}
+function tier(acc){
+  if(acc == null) return "";
+  if(acc < 0.5) return "t1";
+  if(acc < 0.75) return "t2";
+  if(acc < 0.9) return "t3";
+  return "t4";
+}
+function tierColor(acc){
+  if(acc == null) return "var(--ink-3)";
+  if(acc < 0.5) return "var(--bad)";
+  if(acc < 0.75) return "var(--warn)";
+  if(acc < 0.9) return "var(--harbour)";
+  return "var(--ok)";
+}
+function pct(x){ return x == null ? "—" : Math.round(x*100) + "%"; }
+function esc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+var armed = null;
+function armConfirm(btn, label, fn){
+  if(armed && armed.btn === btn){
+    clearTimeout(armed.timer); btn.textContent = armed.text; armed = null;
+    fn(); return;
+  }
+  if(armed){ clearTimeout(armed.timer); armed.btn.textContent = armed.text; }
+  var original = btn.textContent;
+  btn.textContent = label;
+  armed = {btn:btn, text:original, timer:setTimeout(function(){
+    btn.textContent = original; armed = null;
+  }, 4000)};
+}
+var TOUCH = !!(window.matchMedia && window.matchMedia("(hover: none)").matches);
+function slotMin(){ return window.innerWidth < 700 ? 4.6 : 6.6; }
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){ var j = Math.floor(Math.random()*(i+1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+
+/* ============================ 版面 ============================ */
+var view = "study";
+var elStudy = document.getElementById("view-study");
+var elTest = document.getElementById("view-test");
+var elStats = document.getElementById("view-stats");
+var elShell = document.getElementById("shell");
+
+document.querySelectorAll(".tab").forEach(function(t){
+  t.addEventListener("click", function(){ setView(t.dataset.view); });
+});
+function setView(v){
+  view = v;
+  document.querySelectorAll(".tab").forEach(function(t){
+    t.setAttribute("aria-selected", t.dataset.view === v ? "true" : "false");
+  });
+  elStudy.hidden = v !== "study";
+  elTest.hidden = v !== "test";
+  elStats.hidden = v !== "stats";
+  elShell.classList.toggle("stats", v === "stats");
+  if(v === "study") renderStudy();
+  if(v === "stats") renderStats();
+  if(v === "test" && !test) renderTestSetup();
+  window.scrollTo({top:0, behavior:"instant"});
+}
+
+/* ============================ 主題卡片挑選頁 ============================ */
+function scopeCounts(qs){
+  var blanks = 0, att = 0, c = 0, w = 0;
+  qs.forEach(function(q){
+    q.blanks.forEach(function(b){
+      blanks++;
+      var r = P.blanks[q.id + ":" + b.key];
+      if(r && (r.c + r.w) > 0){ att++; c += r.c; w += r.w; }
+    });
+  });
+  return {n:qs.length, blanks:blanks, att:att, acc:(c + w) ? c/(c + w) : null};
+}
+function unitCard(u){
+  var st = scopeCounts(u.qs);
+  return '<button type="button" class="pcard" data-scope=\'{"type":"unit","key":' + JSON.stringify(u.key) + '}\'>' +
+    '<span class="peye">' + esc(u.key) + "</span>" +
+    '<span class="pname">' + esc(u.title) + "</span>" +
+    '<span class="pmeta"><span>' + st.n + " 題 · " + st.blanks + " 格</span><span>" +
+      (st.acc == null ? "未開始" : "正確率 " + pct(st.acc)) + "</span></span>" +
+    '<span class="ubar"><span style="width:' + Math.round((st.acc || 0)*100) +
+      "%;background:" + tierColor(st.acc) + '"></span></span>' +
+    "</button>";
+}
+function quickCard(scope, cls, name, num, foot){
+  return '<button type="button" class="pcard ' + cls + '" data-scope=\'' + JSON.stringify(scope) + "'>" +
+    '<span class="pname">' + esc(name) + "</span>" +
+    '<span class="pnum">' + esc(num) + "</span>" +
+    '<span class="pmeta"><span>' + esc(foot) + "</span></span>" +
+    "</button>";
+}
+function renderPicker(){
+  var all = scopeCounts(Q);
+  var wq = wrongQueue();
+  var fresh = Q.filter(function(q){ return !P.questions[q.id]; });
+  var html =
+    '<div class="picker"><div class="phead"><h1>選擇練習範圍</h1>' +
+      "<p>卷一乙部共 " + Q.length + " 題、" + TOTAL_BLANKS + " 個填空，分兩部分十三個單元。" +
+      (all.att ? "目前已練 " + all.att + " 格，正確率 " + pct(all.acc) + "。" : "點下面任何一張卡片開始。") +
+      "</p></div>" +
+    '<div class="pgrid quick">' +
+      quickCard({type:"all"}, "", "全部題目", Q.length + " 題", "由第一單元順序練習") +
+      quickCard({type:"wrong"}, wq.length ? "flag" : "", "錯題複習", wq.length + " 題", "上次作答仍答錯的題目") +
+      quickCard({type:"fresh"}, "", "未做過", fresh.length + " 題", "一次也沒有作答過的題目") +
+    "</div>";
+  PARTS.forEach(function(pt){
+    var us = UNITS.filter(function(u){ return u.part === pt; });
+    html += '<div class="psec"><span class="lbl">' + esc(pt.replace(/^第[一二]部分：/, "")) +
+      "</span><span class=\"line\"></span><span class=\"scount\">" + us.length + " 個單元</span></div>" +
+      '<div class="pgrid">' + us.map(unitCard).join("") + "</div>";
+  });
+  html += "</div>";
+  elStudy.innerHTML = html;
+  elStudy.querySelectorAll("[data-scope]").forEach(function(b){
+    b.addEventListener("click", function(){ setScope(JSON.parse(b.dataset.scope)); });
+  });
+}
+function scopeStatHTML(){
+  var st = scopeCounts(scopeQuestions());
+  return '<div class="scopestat">' +
+    "<span>" + esc(scopeLabel(study.scope)) + "</span><span>·</span>" +
+    "<span>" + st.n + " 題</span><span>·</span>" +
+    "<span>已練 " + st.att + " / " + st.blanks + " 格</span><span>·</span>" +
+    "<span>正確率 " + pct(st.acc) + "</span>" +
+    '<span class="mini"><span style="width:' + Math.round((st.acc || 0)*100) +
+      "%;background:" + tierColor(st.acc) + '"></span></span>' +
+    "</div>";
+}
+
+/* ============================ 學習模式 ============================ */
+var study = {
+  picking:true, scope:{type:"all"}, mode:"drag", order:"seq",
+  list:[], idx:0, answers:{}, placed:{}, tray:[], usedIdx:{}, sel:null,
+  checked:false, revealed:false, results:null,
+  run:{answered:0, ok:0, total:0, start:Date.now()}
+};
+
+function scopeQuestions(){
+  if(study.scope.type === "unit") return UNIT_BY_KEY[study.scope.key].qs.slice();
+  if(study.scope.type === "wrong") return wrongQueue();
+  if(study.scope.type === "fresh") return Q.filter(function(q){ return !P.questions[q.id]; });
+  return Q.slice();
+}
+function setScope(scope){
+  flushStudySession();
+  study.scope = scope;
+  study.picking = false;
+  buildList();
+  renderStudy();
+}
+function buildList(){
+  var list = scopeQuestions();
+  if(study.order === "rand") shuffle(list);
+  study.list = list.map(function(q){ return q.id; });
+  study.idx = 0;
+  study.run = {answered:0, ok:0, total:0, start:Date.now()};
+  loadQuestion();
+}
+function loadQuestion(){
+  study.answers = {}; study.placed = {}; study.usedIdx = {}; study.sel = null;
+  study.checked = false; study.revealed = false; study.results = null;
+  var q = currentQ();
+  if(q && study.mode === "drag") buildTray(q);
+}
+function currentQ(){ return BY_ID[study.list[study.idx]]; }
+
+/* 干擾項：只從同類型（數字／中文數字／名詞）的答案中挑，
+   並優先選填空後綴相同（例如同樣接「年」「米」「街」）、字尾類別相同、長度相近的，
+   讓選項真的有混淆作用，而不是一眼就能排除。 */
+var CTX = null;
+function answerType(v){
+  if(/^[0-9][0-9,]*(\.[0-9]+)?$/.test(v)) return "num";
+  if(/^[一二三四五六七八九十百千兩零]+$/.test(v)) return "cn";
+  return "txt";
+}
+function buildCtx(){
+  CTX = [];
+  Q.forEach(function(q){
+    q.blanks.forEach(function(b){
+      // 後綴要是實字才有意義：標點（「，因為…」）誰後面都可能有，拿來比對只會亂加分
+      var at = q.text.indexOf("【" + b.key + "】");
+      var suf = at < 0 ? "" : q.text.slice(at + 3, at + 5);
+      if (suf && /^[，。、；：！？（）「」『』《》〈〉…·\s]/.test(suf)) suf = "";
+      var v = b.answers[0];
+      CTX.push({
+        qid:q.id, unit:q.unit, part:q.part, v:v, n:norm(v),
+        type:answerType(v), suf:suf,
+        tail:v.slice(-1), head:v.charAt(0), len:v.length,
+        digits:v.replace(/[^0-9]/g, "").length
+      });
+    });
+  });
+}
+function distractorScore(c, a){
+  if(c.type !== a.type) return -1;
+  var sc = 3;
+  if(c.suf && a.suf){
+    if(c.suf === a.suf) sc += 5;
+    else if(c.suf.charAt(0) === a.suf.charAt(0)) sc += 3;
+    else sc -= 2;
+  }
+  if(c.type === "num"){
+    var isYear = function(v){ return /^(1[6-9]|20)[0-9]{2}$/.test(v); };
+    if(isYear(c.v) !== isYear(a.v)) sc -= 5;   // 年份不要拿來混淆數量、金額
+    if(c.digits === a.digits) sc += 3;
+    else if(Math.abs(c.digits - a.digits) === 1) sc += 1;
+  }else{
+    if(c.tail === a.tail) sc += 4;
+    if(Math.abs(c.len - a.len) <= 1) sc += 2;
+    else if(Math.abs(c.len - a.len) === 2) sc += 1;
+    if(c.head === a.head) sc += 1;
+  }
+  return sc;
+}
+function buildTray(q){
+  if(!CTX) buildCtx();
+  var correct = q.blanks.map(function(b){ return b.answers[0]; });
+  var need = Math.max(4, correct.length) - correct.length;
+  if(need <= 0){ study.tray = shuffle(correct.slice()); return; }
+
+  var mine = CTX.filter(function(c){ return c.qid === q.id; });
+  var seen = {};
+  q.blanks.forEach(function(b){
+    b.answers.forEach(function(a){ seen[norm(a)] = true; });
+  });
+
+  var cand = [];
+  CTX.forEach(function(c){
+    if(c.qid === q.id || seen[c.n]) return;
+    var best = -1;
+    for(var i=0;i<mine.length;i++){
+      var sc = distractorScore(c, mine[i]);
+      if(sc > best) best = sc;
+    }
+    if(best < 0) return;
+    if(c.unit === q.unit) best += 2;
+    else if(c.part === q.part) best += 1;
+    seen[c.n] = true;
+    cand.push({v:c.v, score:best + Math.random()*0.9});
+  });
+  cand.sort(function(a, b){ return b.score - a.score; });
+  study.tray = shuffle(correct.concat(cand.slice(0, need).map(function(o){ return o.v; })));
+}
+
+function renderStudy(){
+  if(study.picking) return renderPicker();
+  var q = currentQ();
+  var total = study.list.length;
+  var head =
+    '<div class="toolbar">' +
+      '<button class="btn btn-ghost backbtn" data-act="back">← 換範圍</button>' +
+      '<div class="seg" role="group" aria-label="練習方式">' +
+        '<button class="segbtn" data-mode="drag" aria-pressed="' + (study.mode === "drag") + '">拖拽配對</button>' +
+        '<button class="segbtn" data-mode="fill" aria-pressed="' + (study.mode === "fill") + '">直接填寫</button>' +
+      "</div>" +
+      '<div class="seg" role="group" aria-label="出題次序">' +
+        '<button class="segbtn" data-order="seq" aria-pressed="' + (study.order === "seq") + '">依次序</button>' +
+        '<button class="segbtn" data-order="rand" aria-pressed="' + (study.order === "rand") + '">隨機</button>' +
+      "</div>" +
+      '<div class="spacer"></div>' +
+      '<div class="progline"><span>' + (total ? (study.idx + 1) : 0) + " / " + total + "</span>" +
+        '<span class="ptrack"><span class="pfill" style="width:' + (total ? ((study.idx)/total*100) : 0) + '%"></span></span>' +
+        '<span>本輪 ' + study.run.ok + "/" + study.run.total + "</span></div>" +
+    "</div>" + scopeStatHTML();
+
+  if(!total){
+    elStudy.innerHTML = head + '<div class="card"><div class="empty"><div style="font-family:var(--serif);font-size:19px;color:var(--ink)">這個範圍沒有題目</div>' +
+      '<div class="hint">「錯題複習」會在你答錯之後累積；「未做過的題」在全部練習完後便會清空。</div>' +
+      '<button class="btn" data-act="allscope">改為練習全部題目</button></div></div>';
+    bindStudy();
+    return;
+  }
+  if(study.idx >= total){ elStudy.innerHTML = head + runSummaryHTML(); bindStudy(); return; }
+
+  var noteBadge = (q.unordered && q.unordered.length)
+    ? '<span class="qtag note">答案無需依次序</span>' : "";
+  var body =
+    '<div class="card lift">' +
+      '<div class="qhead">' +
+        '<span class="qtag unit">' + esc(q.unitTitle) + "</span>" +
+        '<span class="qtag">' + esc(q.unit) + " 第 " + q.num + " 題</span>" +
+        '<span class="qtag">' + q.blanks.length + " 分</span>" +
+        noteBadge +
+      "</div>" +
+      '<div class="stem" id="stem">' + stemHTML(q) + "</div>" +
+      (study.mode === "drag" ? trayHTML() : '<div class="hint" style="margin-top:18px">按 Enter 跳到下一格，答完按「檢查答案」。繁簡體皆可，標點與空白不影響判斷。</div>') +
+      '<div class="actions">' +
+        (study.checked || study.revealed
+          ? '<button class="btn btn-primary" data-act="next">' + (study.idx + 1 >= total ? "完成本輪" : "下一題") + "</button>"
+          : '<button class="btn btn-primary" data-act="check">檢查答案</button>') +
+        (study.checked || study.revealed ? "" : '<button class="btn btn-ghost" data-act="reveal">顯示答案</button>') +
+        '<div class="spacer" style="flex:1"></div>' +
+        '<button class="btn btn-ghost" data-act="prev"' + (study.idx === 0 ? " disabled" : "") + ">上一題</button>" +
+        '<button class="btn btn-ghost" data-act="skip">跳過</button>' +
+      "</div>" +
+      feedbackHTML(q) +
+    "</div>";
+
+  elStudy.innerHTML = head + body;
+  bindStudy();
+}
+
+function stemHTML(q){
+  var parts = q.text.split(/(【[A-Z]】)/);
+  var res = study.results;
+  return parts.map(function(p){
+    var m = /^【([A-Z])】$/.exec(p);
+    if(!m) return esc(p);
+    var k = m[1];
+    var v = study.answers[k] || "";
+    var r = res ? res[k] : null;
+    var cls = r ? (r.ok ? " is-ok" : " is-bad") : "";
+    if(study.mode === "fill"){
+      return '<span class="slotwrap"><span class="slotkey">' + k + "</span>" +
+        '<input class="slot slot-fill' + cls + '" data-key="' + k + '" value="' + esc(v) + '"' +
+        (study.checked || study.revealed ? " readonly" : "") +
+        ' autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="填空 ' + k + '"></span>';
+    }
+    return '<span class="slotwrap"><span class="slotkey">' + k + "</span>" +
+      '<button type="button" class="slot slot-drop' + cls + (v ? " has" : "") + '" data-key="' + k + '" aria-label="答案位置 ' + k + '">' +
+      (v ? esc(v) : "&nbsp;") + "</button></span>";
+  }).join("");
+}
+function trayHTML(){
+  var items = study.tray.map(function(t, i){
+    return '<button type="button" class="chip' + (study.usedIdx[i] ? " used" : "") + (study.sel === i ? " sel" : "") +
+      '" data-i="' + i + '" draggable="true">' + esc(t) + "</button>";
+  }).join("");
+  var tip = TOUCH ? "先點一個答案，再點要填的空格；點已填的空格可以取回。"
+                  : "點選答案再點空格，或直接拖曳；點已填的空格可取回。";
+  return '<div class="tray"><div class="traylbl hint">' + tip + "</div>" + items + "</div>";
+}
+function feedbackHTML(q){
+  if(!study.results && !study.revealed) return "";
+  var rows = q.blanks.map(function(b){
+    var r = study.results ? study.results[b.key] : null;
+    var mine = study.revealed ? "" : (study.answers[b.key] || "");
+    var exp = b.answers.join(" 或 ");
+    if(r && r.ok){
+      return '<div class="fbrow"><span class="fbkey">' + b.key + '</span><span><span class="fbans">' + esc(mine) + "</span></span></div>";
+    }
+    return '<div class="fbrow"><span class="fbkey">' + b.key + "</span><span>" +
+      (mine ? '<span class="fbmine">' + esc(mine) + '</span><span class="fbsep">→</span>' : "") +
+      '<span class="fbans">' + esc(exp) + "</span></span></div>";
+  }).join("");
+  var verdict = "";
+  if(study.results){
+    var ok = q.blanks.filter(function(b){ return study.results[b.key].ok; }).length;
+    verdict = '<div class="verdict"><span class="badge ' + (ok === q.blanks.length ? "good" : "miss") + '">' +
+      ok + " / " + q.blanks.length + "</span><span>" +
+      (ok === q.blanks.length ? "全對" : (ok === 0 ? "全部答錯，記入錯題複習" : "部分正確，錯的已記入錯題複習")) + "</span></div>";
+  }else{
+    verdict = '<div class="verdict"><span class="badge miss">已看答案</span><span>不計入紀錄</span></div>';
+  }
+  return '<div class="feedback">' + verdict + rows + "</div>";
+}
+function runSummaryHTML(){
+  var acc = study.run.total ? study.run.ok/study.run.total : null;
+  return '<div class="card lift"><div class="stack">' +
+    '<div class="lbl">本輪練習完成</div>' +
+    '<div class="rowwrap">' +
+      '<div><div class="tilenum" style="color:' + tierColor(acc) + '">' + pct(acc) + '</div><div class="tilelabel">答對率</div></div>' +
+      '<div><div class="tilenum">' + study.run.ok + " / " + study.run.total + '</div><div class="tilelabel">答對格數</div></div>' +
+      '<div><div class="tilenum">' + study.run.answered + '</div><div class="tilelabel">已答題數</div></div>' +
+    "</div>" +
+    '<div class="actions"><button class="btn btn-primary" data-act="again">再練一輪</button>' +
+    '<button class="btn" data-act="wrongscope">練習錯題（' + wrongQueue().length + '）</button>' +
+    '<button class="btn btn-ghost" data-act="gostats">看統計</button></div>' +
+    "</div></div>";
+}
+
+function bindStudy(){
+  elStudy.querySelectorAll("[data-mode]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(study.mode === b.dataset.mode) return;
+      study.mode = b.dataset.mode;
+      loadQuestion(); renderStudy();
+    });
+  });
+  elStudy.querySelectorAll("[data-order]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(study.order === b.dataset.order) return;
+      study.order = b.dataset.order;
+      buildList(); renderStudy();
+    });
+  });
+  elStudy.querySelectorAll("[data-act]").forEach(function(b){
+    b.addEventListener("click", function(){ studyAction(b.dataset.act); });
+  });
+
+  var stem = document.getElementById("stem");
+  if(!stem) return;
+
+  if(study.mode === "fill"){
+    var inputs = stem.querySelectorAll(".slot-fill");
+    inputs.forEach(function(inp, i){
+      sizeInput(inp);
+      inp.addEventListener("input", function(){
+        study.answers[inp.dataset.key] = inp.value;
+        sizeInput(inp);
+      });
+      inp.addEventListener("keydown", function(e){
+        if(e.key !== "Enter") return;
+        e.preventDefault();
+        if(i + 1 < inputs.length) inputs[i+1].focus();
+        else studyAction(study.checked || study.revealed ? "next" : "check");
+      });
+    });
+    if(!study.checked && !study.revealed && inputs.length) inputs[0].focus();
+  }else{
+    stem.querySelectorAll(".slot-drop").forEach(function(slot){
+      slot.addEventListener("click", function(){ slotClick(slot.dataset.key); });
+      slot.addEventListener("dragover", function(e){ e.preventDefault(); slot.classList.add("over"); });
+      slot.addEventListener("dragleave", function(){ slot.classList.remove("over"); });
+      slot.addEventListener("drop", function(e){
+        e.preventDefault(); slot.classList.remove("over");
+        var i = parseInt(e.dataTransfer.getData("text/plain"), 10);
+        if(!isNaN(i)) place(i, slot.dataset.key);
+      });
+    });
+    elStudy.querySelectorAll(".chip").forEach(function(chip){
+      chip.addEventListener("click", function(){
+        var i = +chip.dataset.i;
+        study.sel = (study.sel === i) ? null : i;
+        renderStudy();
+      });
+      chip.addEventListener("dragstart", function(e){
+        e.dataTransfer.setData("text/plain", chip.dataset.i);
+        e.dataTransfer.effectAllowed = "move";
+        study.sel = +chip.dataset.i;
+      });
+    });
+  }
+}
+function sizeInput(inp){
+  var n = Math.max(slotMin(), inp.value.length * 1.15 + 1.6);
+  inp.style.width = n + "em";
+}
+function place(i, key){
+  if(study.checked || study.revealed) return;
+  if(study.usedIdx[i]) return;
+  var prev = study.placed[key];
+  if(prev != null) delete study.usedIdx[prev];
+  study.placed[key] = i;
+  study.usedIdx[i] = true;
+  study.answers[key] = study.tray[i];
+  study.sel = null;
+  renderStudy();
+}
+function slotClick(key){
+  if(study.checked || study.revealed) return;
+  if(study.sel != null && !study.usedIdx[study.sel]){ place(study.sel, key); return; }
+  var prev = study.placed[key];
+  if(prev != null){
+    delete study.usedIdx[prev]; delete study.placed[key]; delete study.answers[key];
+    renderStudy();
+  }
+}
+function studyAction(act){
+  var q = currentQ();
+  if(act === "check"){
+    if(!q) return;
+    study.results = grade(q, study.answers);
+    study.checked = true;
+    var r = record(q, study.results);
+    study.run.answered++; study.run.ok += r.ok; study.run.total += r.total;
+    renderStudy();
+  }else if(act === "reveal"){
+    if(!q) return;
+    q.blanks.forEach(function(b){ study.answers[b.key] = b.answers[0]; });
+    study.revealed = true; study.results = null;
+    renderStudy();
+  }else if(act === "next"){
+    study.idx++;
+    if(study.idx >= study.list.length) flushStudySession();
+    loadQuestion(); renderStudy();
+  }else if(act === "skip"){
+    study.idx++; loadQuestion(); renderStudy();
+  }else if(act === "prev"){
+    if(study.idx > 0){ study.idx--; loadQuestion(); renderStudy(); }
+  }else if(act === "again"){
+    buildList(); renderStudy();
+  }else if(act === "allscope"){
+    setScope({type:"all"});
+  }else if(act === "wrongscope"){
+    setScope({type:"wrong"});
+  }else if(act === "gostats"){
+    setView("stats");
+  }else if(act === "back"){
+    flushStudySession();
+    study.picking = true;
+    renderStudy();
+  }
+}
+function flushStudySession(){
+  if(study.run.total > 0){
+    P.sessions.push({
+      ts:Date.now(), kind:"study", mode:study.mode,
+      scope:scopeLabel(study.scope), n:study.run.answered,
+      ok:study.run.ok, total:study.run.total, ms:Date.now() - study.run.start
+    });
+    if(P.sessions.length > 80) P.sessions = P.sessions.slice(-80);
+    save();
+    study.run = {answered:0, ok:0, total:0, start:Date.now()};
+  }
+}
+function scopeLabel(s){
+  if(s.type === "unit") return UNIT_BY_KEY[s.key].title;
+  if(s.type === "wrong") return "錯題複習";
+  if(s.type === "fresh") return "未做過的題";
+  return "全部題目";
+}
+
+/* ============================ 測驗模式 ============================ */
+var test = null;
+var testCfg = {count:30, minutes:45, scope:"all"};
+
+function renderTestSetup(){
+  var counts = [20, 30, 50, 80];
+  var mins = [20, 30, 45, 60, 120];
+  var scopes = [["all","全部題庫"], ["p1","香港知識"], ["p2","中國知識"], ["wrong","錯題重考"]];
+  var last = P.sessions.filter(function(s){ return s.kind === "test"; }).slice(-1)[0];
+
+  elTest.innerHTML =
+    '<div class="card lift"><div class="setup">' +
+      '<div><div class="lbl">模擬測驗</div>' +
+      '<div style="font-family:var(--serif);font-size:21px;font-weight:600;margin-top:6px">計時填充，75% 為合格線</div>' +
+      '<div class="hint" style="margin-top:6px">正式考試乙部為 2 小時填充題，佔全卷一半分數，全卷須取得 75% 才合格。這裡以同一標準計分。</div></div>' +
+      '<div class="setrow"><span class="lbl">題數</span><div class="seg">' +
+        counts.map(function(c){ return '<button class="segbtn" data-count="' + c + '" aria-pressed="' + (testCfg.count === c) + '">' + c + "</button>"; }).join("") +
+      "</div></div>" +
+      '<div class="setrow"><span class="lbl">時限</span><div class="seg">' +
+        mins.map(function(m){ return '<button class="segbtn" data-min="' + m + '" aria-pressed="' + (testCfg.minutes === m) + '">' + m + " 分</button>"; }).join("") +
+      "</div></div>" +
+      '<div class="setrow"><span class="lbl">範圍</span><div class="seg">' +
+        scopes.map(function(s){ return '<button class="segbtn" data-tscope="' + s[0] + '" aria-pressed="' + (testCfg.scope === s[0]) + '">' + s[1] + "</button>"; }).join("") +
+      "</div></div>" +
+      '<div class="actions"><button class="btn btn-primary" data-tact="start">開始測驗</button>' +
+        '<span class="hint">' + testPoolSize() + " 題可供抽取" +
+        (last ? "　·　上次得分 " + Math.round(last.ok/last.total*100) + "%" : "") + "</span></div>" +
+    "</div></div>";
+
+  elTest.querySelectorAll("[data-count]").forEach(function(b){
+    b.addEventListener("click", function(){ testCfg.count = +b.dataset.count; renderTestSetup(); });
+  });
+  elTest.querySelectorAll("[data-min]").forEach(function(b){
+    b.addEventListener("click", function(){ testCfg.minutes = +b.dataset.min; renderTestSetup(); });
+  });
+  elTest.querySelectorAll("[data-tscope]").forEach(function(b){
+    b.addEventListener("click", function(){ testCfg.scope = b.dataset.tscope; renderTestSetup(); });
+  });
+  elTest.querySelectorAll("[data-tact]").forEach(function(b){
+    b.addEventListener("click", function(){ startTest(); });
+  });
+}
+function testPool(){
+  if(testCfg.scope === "p1") return Q.filter(function(q){ return q.part === PARTS[0]; });
+  if(testCfg.scope === "p2") return Q.filter(function(q){ return q.part === PARTS[1]; });
+  if(testCfg.scope === "wrong"){ var w = wrongQueue(); return w.length ? w : Q.slice(); }
+  return Q.slice();
+}
+function testPoolSize(){ return testPool().length; }
+
+function startTest(){
+  var pool = shuffle(testPool());
+  var list = pool.slice(0, Math.min(testCfg.count, pool.length));
+  test = {
+    list:list.map(function(q){ return q.id; }),
+    idx:0, ans:{}, results:null,
+    start:Date.now(), deadline:Date.now() + testCfg.minutes*60000,
+    submitted:false, timer:null
+  };
+  test.timer = setInterval(tick, 1000);
+  renderTest();
+}
+function tick(){
+  if(!test || test.submitted) return;
+  var left = test.deadline - Date.now();
+  var el = document.getElementById("timer");
+  if(el){
+    el.textContent = fmtTime(Math.max(0, left));
+    el.className = "timer" + (left < 60000 ? " crit" : (left < 300000 ? " warn" : ""));
+  }
+  if(left <= 0) submitTest(true);
+}
+function fmtTime(ms){
+  var s = Math.floor(ms/1000), m = Math.floor(s/60);
+  return (m < 10 ? "0" : "") + m + ":" + ((s%60) < 10 ? "0" : "") + (s%60);
+}
+function renderTest(){
+  if(test.submitted) return renderTestResult();
+  var q = BY_ID[test.list[test.idx]];
+  var answered = test.list.filter(function(id){
+    var a = test.ans[id]; if(!a) return false;
+    return Object.keys(a).some(function(k){ return String(a[k]).trim(); });
+  }).length;
+
+  var bar =
+    '<div class="testbar">' +
+      '<span class="timer" id="timer">' + fmtTime(Math.max(0, test.deadline - Date.now())) + "</span>" +
+      '<div><div class="lbl">進度</div><div style="font-family:var(--mono);font-size:13px">' +
+        (test.idx + 1) + " / " + test.list.length + "　已作答 " + answered + "</div></div>" +
+      '<div style="flex:1"></div>' +
+      '<button class="btn" data-tact="prev"' + (test.idx === 0 ? " disabled" : "") + ">上一題</button>" +
+      '<button class="btn" data-tact="next"' + (test.idx + 1 >= test.list.length ? " disabled" : "") + ">下一題</button>" +
+      '<button class="btn btn-primary" data-tact="submit">交卷</button>' +
+    "</div>";
+
+  var noteBadge = (q.unordered && q.unordered.length) ? '<span class="qtag note">答案無需依次序</span>' : "";
+  var a = test.ans[q.id] || {};
+  var stem = q.text.split(/(【[A-Z]】)/).map(function(p){
+    var m = /^【([A-Z])】$/.exec(p);
+    if(!m) return esc(p);
+    var k = m[1];
+    return '<span class="slotwrap"><span class="slotkey">' + k + "</span>" +
+      '<input class="slot slot-fill" data-key="' + k + '" value="' + esc(a[k] || "") +
+      '" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="填空 ' + k + '"></span>';
+  }).join("");
+
+  var nav = test.list.map(function(id, i){
+    var aa = test.ans[id];
+    var done = aa && Object.keys(aa).some(function(k){ return String(aa[k]).trim(); });
+    return '<button class="gnav' + (done ? " done" : "") + (i === test.idx ? " cur" : "") + '" data-jump="' + i + '">' + (i+1) + "</button>";
+  }).join("");
+
+  elTest.innerHTML = bar +
+    '<div class="card lift">' +
+      '<div class="qhead"><span class="qtag unit">' + esc(q.unitTitle) + "</span>" +
+      '<span class="qtag">' + q.blanks.length + " 分</span>" + noteBadge + "</div>" +
+      '<div class="stem" id="tstem">' + stem + "</div>" +
+    "</div>" +
+    '<div class="gridnav">' + nav + "</div>";
+
+  bindTest();
+}
+function bindTest(){
+  elTest.querySelectorAll("[data-tact]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var a = b.dataset.tact;
+      if(a === "prev" && test.idx > 0){ test.idx--; renderTest(); }
+      else if(a === "next" && test.idx + 1 < test.list.length){ test.idx++; renderTest(); }
+      else if(a === "submit"){ armConfirm(b, "確定交卷？", function(){ submitTest(false); }); }
+      else if(a === "retry"){ test = null; renderTestSetup(); }
+      else if(a === "reviewwrong"){ addTestWrongToQueue(); setScope({type:"wrong"}); setView("study"); }
+    });
+  });
+  elTest.querySelectorAll("[data-jump]").forEach(function(b){
+    b.addEventListener("click", function(){ test.idx = +b.dataset.jump; renderTest(); });
+  });
+  var stem = document.getElementById("tstem");
+  if(!stem) return;
+  var q = BY_ID[test.list[test.idx]];
+  var inputs = stem.querySelectorAll(".slot-fill");
+  inputs.forEach(function(inp, i){
+    sizeInput(inp);
+    inp.addEventListener("input", function(){
+      var a = test.ans[q.id] || (test.ans[q.id] = {});
+      a[inp.dataset.key] = inp.value;
+      sizeInput(inp);
+    });
+    inp.addEventListener("keydown", function(e){
+      if(e.key !== "Enter") return;
+      e.preventDefault();
+      if(i + 1 < inputs.length) inputs[i+1].focus();
+      else if(test.idx + 1 < test.list.length){ test.idx++; renderTest(); }
+    });
+  });
+  if(inputs.length) inputs[0].focus();
+}
+function submitTest(auto){
+  if(test.submitted) return;
+  test.submitted = true;
+  clearInterval(test.timer);
+  var ok = 0, total = 0, byUnit = {};
+  test.results = {};
+  test.list.forEach(function(id){
+    var q = BY_ID[id];
+    var res = grade(q, test.ans[id] || {});
+    test.results[id] = res;
+    var r = record(q, res);
+    ok += r.ok; total += r.total;
+    var u = byUnit[q.unit] || (byUnit[q.unit] = {ok:0, total:0});
+    u.ok += r.ok; u.total += r.total;
+  });
+  test.score = {ok:ok, total:total, auto:!!auto, byUnit:byUnit, ms:Date.now() - test.start};
+  P.sessions.push({
+    ts:Date.now(), kind:"test", scope:testCfg.scope, n:test.list.length,
+    ok:ok, total:total, ms:test.score.ms, minutes:testCfg.minutes
+  });
+  if(P.sessions.length > 80) P.sessions = P.sessions.slice(-80);
+  save();
+  renderTestResult();
+}
+function addTestWrongToQueue(){ /* 錯題已在 record() 標記，此處只作導航 */ }
+
+function renderTestResult(){
+  var s = test.score;
+  var acc = s.total ? s.ok/s.total : 0;
+  var passed = acc >= 0.75;
+  var units = Object.keys(s.byUnit).map(function(k){
+    var u = s.byUnit[k];
+    return {title:UNIT_BY_KEY[k].title, ok:u.ok, total:u.total, acc:u.ok/u.total};
+  }).sort(function(a,b){ return a.acc - b.acc; });
+
+  var reviews = test.list.map(function(id, i){
+    var q = BY_ID[id], res = test.results[id], a = test.ans[id] || {};
+    var stem = q.text.split(/(【[A-Z]】)/).map(function(p){
+      var m = /^【([A-Z])】$/.exec(p);
+      if(!m) return esc(p);
+      var k = m[1], r = res[k];
+      var blank = q.blanks.filter(function(b){ return b.key === k; })[0];
+      if(r.ok) return '<span class="rs ok">' + esc(a[k]) + "</span>";
+      var mine = (a[k] || "").trim();
+      return '<span class="rs bad">' + (mine ? esc(mine) + " → " : "") + esc(blank.answers.join(" 或 ")) + "</span>";
+    }).join("");
+    var qok = q.blanks.filter(function(b){ return res[b.key].ok; }).length;
+    return '<div class="reviewq"><div class="rnum">' + (i+1) + '</div><div class="rbody">' +
+      '<div class="qhead" style="margin-bottom:6px"><span class="qtag unit">' + esc(q.unitTitle) + '</span>' +
+      '<span class="qtag">' + qok + ' / ' + q.blanks.length + '</span></div>' +
+      '<div class="rstem">' + stem + '</div></div></div>';
+  }).join("");
+
+  elTest.innerHTML =
+    '<div class="card lift"><div class="stack">' +
+      '<div class="lbl">' + (s.auto ? "時間到 · 自動交卷" : "測驗結果") + "</div>" +
+      '<div class="scoregrid">' +
+        '<div><div class="bigscore ' + (passed ? "pass" : "fail") + '">' + Math.round(acc*100) + '<span style="font-size:24px">%</span></div>' +
+        '<div class="tilelabel">' + (passed ? "達到 75% 合格線" : "未達 75% 合格線") + "</div></div>" +
+        '<div><div class="tilenum">' + s.ok + " / " + s.total + '</div><div class="tilelabel">答對格數</div></div>' +
+        '<div><div class="tilenum">' + fmtTime(s.ms) + '</div><div class="tilelabel">用時</div></div>' +
+        '<div><div class="tilenum">' + test.list.length + '</div><div class="tilelabel">題數</div></div>' +
+      "</div>" +
+      '<div class="actions"><button class="btn btn-primary" data-tact="retry">再考一次</button>' +
+        '<button class="btn" data-tact="reviewwrong">練習這次的錯題</button></div>' +
+    "</div></div>" +
+    '<div class="sechead"><h2>各單元表現</h2><span class="sub">由弱至強</span></div>' +
+    '<div class="card"><div class="tablewrap"><table class="stat"><thead><tr><th>單元</th><th style="width:44%">正確率</th><th style="text-align:right">得分</th></tr></thead><tbody>' +
+      units.map(function(u){
+        return "<tr><td>" + esc(u.title) + '</td><td class="barcell"><div class="bar"><span style="width:' +
+          Math.round(u.acc*100) + "%;background:" + tierColor(u.acc) + '"></span></div></td><td class="num">' +
+          u.ok + " / " + u.total + "</td></tr>";
+      }).join("") +
+    "</tbody></table></div></div>" +
+    '<div class="sechead"><h2>逐題檢討</h2><span class="sub">綠色為答對，紅色顯示正確答案</span></div>' +
+    '<div class="card"><div class="reviewlist">' + reviews + "</div></div>";
+
+  bindTest();
+}
+
+/* ============================ 統計 ============================ */
+function renderStats(){
+  var o = overall();
+  var wq = wrongQueue().length;
+  var tests = P.sessions.filter(function(s){ return s.kind === "test"; });
+  var studies = P.sessions.filter(function(s){ return s.kind === "study"; });
+
+  var tiles =
+    '<div class="tiles">' +
+      tile(Math.round(o.att/TOTAL_BLANKS*100) + "%", "題庫覆蓋率", o.att + " / " + TOTAL_BLANKS + " 格已練過") +
+      tile(pct(o.acc), "累計正確率", o.c + " 對 · " + o.w + " 錯", tierColor(o.acc)) +
+      tile(String(wq), "待複習錯題", "上次作答仍錯的題目", wq ? "var(--bad)" : "var(--ok)") +
+      tile(String(tests.length + studies.length), "練習次數", tests.length + " 次測驗 · " + studies.length + " 輪學習") +
+    "</div>";
+
+  var rows = UNITS.map(function(u){
+    var st = unitStat(u);
+    return {u:u, st:st};
+  });
+  var weak = rows.filter(function(r){ return r.st.acc != null; }).sort(function(a,b){ return a.st.acc - b.st.acc; });
+
+  var table =
+    '<div class="card"><div class="tablewrap"><table class="stat"><thead><tr>' +
+      "<th>單元</th><th>題數</th><th>已練</th><th style=\"width:34%\">正確率</th><th style=\"text-align:right\">對／錯</th><th></th>" +
+    "</tr></thead><tbody>" +
+    rows.map(function(r){
+      return "<tr><td>" + esc(r.u.title) + '</td><td class="num">' + r.u.qs.length + '</td>' +
+        '<td class="num">' + r.st.att + " / " + r.st.blanks + "</td>" +
+        '<td class="barcell"><div class="bar"><span style="width:' + Math.round((r.st.acc || 0)*100) +
+        "%;background:" + tierColor(r.st.acc) + '"></span></div></td>' +
+        '<td class="num">' + (r.st.acc == null ? "—" : r.st.c + " / " + r.st.w) + "</td>" +
+        '<td style="text-align:right"><button class="btn btn-ghost" style="padding:4px 10px;font-size:12.5px" data-practice="' +
+        esc(r.u.key) + '">練習</button></td></tr>';
+    }).join("") +
+    "</tbody></table></div></div>";
+
+  var worst = Q.map(function(q){
+    var w = 0, c = 0;
+    q.blanks.forEach(function(b){
+      var r = P.blanks[q.id + ":" + b.key];
+      if(r){ w += r.w; c += r.c; }
+    });
+    return {q:q, w:w, c:c};
+  }).filter(function(x){ return x.w > 0; })
+    .sort(function(a,b){ return (b.w - b.c) - (a.w - a.c) || b.w - a.w; })
+    .slice(0, 10);
+
+  var worstHTML = worst.length
+    ? worst.map(function(x){
+        return '<div class="wrongitem"><span class="qtag">' + esc(x.q.unit) + " " + x.q.num + "</span>" +
+          '<span class="wq">' + esc(x.q.text.replace(/【[A-Z]】/g, "＿")) + "</span>" +
+          '<span class="scount" style="color:var(--bad)">錯 ' + x.w + " · 對 " + x.c + "</span></div>";
+      }).join("")
+    : '<div class="hint" style="padding:8px 0">還沒有錯題紀錄。做過練習之後，最常出錯的題目會排在這裡。</div>';
+
+  elStats.innerHTML =
+    tiles +
+    '<div class="sechead"><h2>測驗成績</h2><span class="sub">虛線為 75% 合格線</span></div>' +
+    '<div class="card chartbox">' + testChart(tests) + "</div>" +
+    '<div class="sechead"><h2>單元掌握度</h2><span class="sub">' +
+      (weak.length ? "最需要加強：" + esc(weak[0].u.title) + "（" + pct(weak[0].st.acc) + "）" : "尚未有練習紀錄") +
+    "</span></div>" + table +
+    '<div class="sechead"><h2>最常做錯的題目</h2><span class="sub">依「錯 − 對」次數排序</span></div>' +
+    '<div class="card">' + worstHTML + "</div>" +
+    '<div class="sechead"><h2>進度資料</h2><span class="sub">全部存在這台電腦</span></div>' +
+    '<div class="card"><div class="stack">' +
+      '<div class="rowwrap" style="align-items:center">' +
+        '<button class="btn" id="expbtn">匯出進度</button>' +
+        '<button class="btn" id="impbtn">匯入進度</button>' +
+        '<button class="btn btn-ghost" id="resetbtn">清除所有紀錄</button>' +
+        '<input type="file" id="impfile" accept="application/json,.json" hidden>' +
+      "</div>" +
+      '<div class="hint" id="iostatus">' +
+        (storageOK()
+          ? "紀錄自動存在這個瀏覽器，關掉再開仍在。換電腦或換瀏覽器時，用匯出／匯入搬移。"
+          : "這個瀏覽器不允許本機儲存，進度只保留到關閉分頁為止——請改用 Chrome 開啟，或先匯出備份。") +
+      "</div>" +
+    "</div></div>";
+
+  elStats.querySelectorAll("[data-practice]").forEach(function(b){
+    b.addEventListener("click", function(){
+      setScope({type:"unit", key:b.dataset.practice});
+      setView("study");
+    });
+  });
+  var eb = document.getElementById("expbtn");
+  if(eb) eb.addEventListener("click", exportProgress);
+  var ib = document.getElementById("impbtn"), ifile = document.getElementById("impfile");
+  if(ib && ifile){
+    ib.addEventListener("click", function(){ ifile.click(); });
+    ifile.addEventListener("change", function(){
+      if(!ifile.files || !ifile.files[0]) return;
+      importProgress(ifile.files[0], function(err){
+        if(err){ document.getElementById("iostatus").textContent = err; return; }
+        renderStats();
+        document.getElementById("iostatus").textContent = "進度已匯入。";
+      });
+      ifile.value = "";
+    });
+  }
+  var rb = document.getElementById("resetbtn");
+  if(rb) rb.addEventListener("click", function(){
+    armConfirm(rb, "再按一次確認清除", function(){
+      P = {v:1, updatedAt:Date.now(), blanks:{}, questions:{}, sessions:[]};
+      save(); renderStats();
+    });
+  });
+}
+function tile(num, label, foot, color){
+  return '<div class="tile"><div class="tilenum"' + (color ? ' style="color:' + color + '"' : "") + ">" + esc(num) + "</div>" +
+    '<div class="tilelabel">' + esc(label) + '</div><div class="tilefoot">' + esc(foot) + "</div></div>";
+}
+function testChart(tests){
+  var W = 660, H = 210, padL = 38, padR = 14, padT = 16, padB = 34;
+  var data = tests.slice(-12);
+  var innerW = W - padL - padR, innerH = H - padT - padB;
+  var y = function(v){ return padT + innerH - (v/100)*innerH; };
+  var g = "";
+  [0, 25, 50, 100].forEach(function(v){
+    var yy = y(v);
+    g += '<line class="g-line" x1="' + padL + '" y1="' + yy + '" x2="' + (W-padR) + '" y2="' + yy + '"/>';
+    g += '<text class="g-lbl" x="' + (padL-8) + '" y="' + (yy+4) + '" text-anchor="end">' + v + '</text>';
+  });
+  g += '<line class="g-pass" x1="' + padL + '" y1="' + y(75) + '" x2="' + (W-padR) + '" y2="' + y(75) + '"/>';
+  g += '<text class="g-lbl" x="' + (padL-8) + '" y="' + (y(75)+4) + '" text-anchor="end">75</text>';
+  g += '<text class="g-note" x="' + (W-padR) + '" y="' + (y(75)-7) + '" text-anchor="end">合格線 75%</text>';
+
+  if(!data.length){
+    g += '<text class="g-empty" x="' + (padL + innerW/2) + '" y="' + (padT + innerH/2) + '" text-anchor="middle">尚未有測驗紀錄，做一次模擬測驗就會出現在這裡</text>';
+  }else{
+    var slot = innerW / data.length;
+    var bw = Math.min(46, slot * 0.56);
+    data.forEach(function(s, i){
+      var v = Math.round(s.ok/s.total*100);
+      var cx = padL + slot*(i + 0.5);
+      var top = y(v);
+      var cls = v >= 75 ? "b-ok" : (v >= 50 ? "b-warn" : "b-bad");
+      g += '<rect class="' + cls + '" x="' + (cx - bw/2) + '" y="' + top + '" width="' + bw +
+        '" height="' + Math.max(1, y(0) - top) + '" rx="3" opacity="0.88"/>';
+      g += '<text class="g-val" x="' + cx + '" y="' + (top - 6) + '" text-anchor="middle">' + v + '</text>';
+      var d = new Date(s.ts);
+      g += '<text class="g-lbl" x="' + cx + '" y="' + (H - 10) + '" text-anchor="middle">' +
+        (d.getMonth()+1) + '/' + d.getDate() + '</text>';
+    });
+  }
+  return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="測驗成績趨勢">' + g + '</svg>';
+}
+
+/* ============================ 啟動 ============================ */
+buildList();
+renderStudy();
+setSync(storageOK(), storageOK() ? "本機儲存" : "未能儲存");
+window.addEventListener("beforeunload", flushStudySession);
+})();
+</script>
+
+</body>
+</html>
